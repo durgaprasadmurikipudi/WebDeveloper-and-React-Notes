@@ -1,0 +1,895 @@
+Javascript - Reactjs -- Popular interview questions:
+
+Pros and cons of ReactJS
+ReactJS is a JavaScript library, open sourced by Facebook in 2013, which is great for building huge web applications where data is changeable on a regular basis.
+
+Benefits of ReactJS:
+
+Easy to learn. React is much easier to learn because of its simplicity in terms of syntax. Engineers just need to recall their HTML writing skills and that’s it. No need to deeply learn TypeScript like in Angular.
+High level of flexibility and maximum of responsiveness.
+Virtual DOM (document object model) that allows arranging documents in HTML, XHTML, or XML formats into a tree from which is better acceptable by web browsers while parsing different elements of the web app.
+Combined with ES6/7, ReactJS can work with the high load in an easy way.
+Downward data binding which means that with this kind of data flow the child elements cannot affect parent data.
+100% open source JavaScript library which get a lot of everyday updates and improvements according to the contributions of developers all over the world.
+Absolutely light-weighted because the data performing on the user side can be easily represented on the server side simultaneously.
+Migrating between versions is generally very easy, with Facebook providing “codemods” to automate much of the process.
+Drawbacks of ReactJS:
+
+Lack of official documentation — super-fast development of ReactJS leaves no place for the proper documentation which is a bit chaotic now as many developers contribute it individually without any systematic approach;
+React is unopinionated — meaning that developers sometimes have too much choice;
+Long time to master which means that React JS requires deep knowledge of how to integrate user interface into MVC framework.
+Companies that use ReactJS: Facebook, Instagram, Netflix, New York Times, Yahoo, Khan Academy, Whatsapp, Codecademy, Dropbox, Airbnb, Asana, Atlassian, Intercom, Microsoft.
+
+1. REact JS Life cycle:
+React and it’s user interface
+“ReactJs is a javascript library for building user interfaces” is official one liner introduction about ReactJs.
+
+What is User Interface?
+The user interacts with application by clicking, hovering, pressing a key or performing many other events on UI components. 
+All UI components take birth in the browser and would die at some point of time. The whole interface is governed by one God, 
+that is the user.
+
+The user interface is a multi option playground where the user can do anything and libraries like ReactJs helps us 
+creating that playground.
+
+What is lifecycle methods and why it is important?
+Around us everything goes through a cycle of taking birth, growing and at some point of time it will die. Consider trees, 
+any software application, yourself, a div container or UI component in a web browser, each of these takes birth, grows by getting
+ updates and dies.
+
+The lifecycle methods are various methods which are invoked at different phases of the lifecycle of a component. 
+Suppose if we are creating the YouTube app, then obviously our app will use the network to buffer the videos and it 
+spends the battery power (let’s assume only these two).
+If the user switches to another application after playing the video, then being the awesome developers, 
+we should make sure we are using the resources like network and battery in the most efficient manner. 
+Whenever the user switches to another application, we can stop/pause the buffering of the video, 
+which will stop using the network and battery.
+
+This is what the lifecycle methods in ReactJs provide us, so that the developer can produce a quality application and 
+make sure the developer can really plan what and how to do at various points of birth, growth or death of UI interfaces.
+
+Having a great understanding about the component lifecycle would excel your ability to develop quality ReactJs user interfaces.
+
+Four phases of a React component
+The React component, like anything else in the world, goes through the following phases
+
+Initialization
+Mounting
+Update
+Unmounting
+The following image is the visual representation of the phases and the methods of ReactJs lifecycle.
+
+<Image src : current folder ; name = React JS Life Cycle in brief:>
+
+1. Initialization : set up props and  state.
+    In this phase the React component prepares for the upcoming tough journey, 
+    by setting up the initial states and default props, if any.
+2. Mounting : "componentWillMount" -> "render" -> "componentDidMount"
+    componentWillMount is executed just before the React Component is about to mount on the DOM. 
+    Hence, after this method the component will mount. All the things that you want to do before a component mounts has 
+    to be defined here.
+    This method is executed once in a lifecycle of a component and before first render.
+    Usage: componentWillMount is used for initializing the states or props, there is a huge debate going on to merge 
+    it with the constructor.
+    render mounts the component onto the browser. This is a pure method, which means it gives the same output every
+     time the same input is provided.
+     componentDidMount this is the hook method which is executed after the component did mount on the dom. 
+    This method is executed once in a lifecycle of a component and after the first render.
+    As, in this method, we can access the DOM, we should initialize JS libraries like D3 or Jquery which needs to access the DOM.
+    Usage: this is the right method to integrate with the D3 or other third party Javascript libraries.
+3. Updation :
+    For Props : "componentWillRecieveProps" -> "shouldComponentUpdate" ? then -> "componentWillUpdate" -> "render" -> "componentDidUpdate"
+    For States: "shouldComponentUpdate" ? then -> "componentWillUpdate" -> "render" 
+    This phase starts when the react component has taken birth on the browser and grows by receiving new updates. 
+    The component can be updated by two ways, sending new props or updating the state.
+
+    Let’s see the list of hook methods when the current state is updated by calling setState
+
+    shouldComponentUpdate tells the React that when the component receives new props or state is being updated, 
+    should React re-render or it can skip rendering? 
+    This method is a question, should the Component be Updated? 
+    Hence this method should return true or false, and accordingly the component would be re-rendered or skipped. By default,
+     this method return true.
+    This method is generally used when rendering is a very heavy method, then you should avoid render every now and then. 
+    For example, suppose for every render, the component generates thousand prime numbers, 
+    let’s consider some app has this kind of logic, then we can control when it is required then only the component is rendered.
+
+    componentWillUpdate is executed only after the shouldComponentUpdate returns true. This method is only used to do the 
+    preparation for the upcoming render, similar to componentWillMount or constructor.
+    There can be some use case when there needs some calculation or preparation before rendering some item, 
+    this is the place to do so.
+    render And then the component gets rendered.
+    componentDidUpdate is executed when the new updated component has been updated in the DOM. 
+    This method is used to re trigger the third party libraries used to make sure these libraries also update and
+     reload themselves.
+    
+    The list of methods that will get called when the parent sends new props are as follows:
+    componentWillReceiveProps gets executed when the props have changed and is not first render.
+    Sometimes state depends on the props, hence whenever props changes the state should also be synced. 
+    This is the method where it should be done.
+    The similar method for the state doesn’t exist before state change because the props are read only
+    within a component and can never be dependent on the state.
+
+    4. Unmounting: "componentWillUnmount"
+    In this phase, the component is not needed and the component will get unmounted from the DOM. The method which is called in this phase
+
+    componentWillUnmount This method is the last method in the lifecycle. This is executed just before the component gets removed from the DOM.
+    Usage: In this method, we do all the cleanups related to the component. 
+    For example, on logout, the user details and all the auth tokens can be cleared before unmounting the main component.
+
+    Error Handling
+    These methods are called when there is an error during rendering, in a lifecycle method, 
+    or in the constructor of any child component.
+
+static getDerivedStateFromError()
+componentDidCatch()
+
+static getDerivedStateFromError(error)
+This lifecycle is invoked after an error has been thrown by a descendant component. It receives the error that was thrown as a parameter and should return a value to update state.
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+Note
+
+getDerivedStateFromError() is called during the “render” phase, so side-effects are not permitted. For those use cases, use componentDidCatch() instead.
+
+componentDidCatch()
+componentDidCatch(error, info)
+This lifecycle is invoked after an error has been thrown by a descendant component. It receives two parameters:
+
+error - The error that was thrown.
+info - An object with a componentStack key containing information about which component threw the error.
+componentDidCatch() is called during the “commit” phase, so side-effects are permitted. 
+It should be used for things like logging errors:
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    // Example "componentStack":
+    //   in ComponentThatThrows (created by App)
+    //   in ErrorBoundary (created by App)
+    //   in div (created by App)
+    //   in App
+    logComponentStackToMyService(info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+Note
+
+In the event of an error, you can render a fallback UI with componentDidCatch() by calling setState, 
+but this will be deprecated in a future release. 
+Use static getDerivedStateFromError() to handle fallback rendering instead.
+
+2. state vs prop in react:
+
+Props and state are related. The state of one component will often become the props of a child component. 
+Props are passed to the child within the render method of the parent as the second argument to React.createElement() or,
+ if you're using JSX, the more familiar tag attributes.
+
+<MyChild name={this.state.childsName} />
+The parent's state value of childsName becomes the child's this.props.name. From the child's perspective, 
+the name prop is immutable. If it needs to be changed, the parent should just change its internal state:
+
+this.setState({ childsName: 'New name' });
+and React will propagate it to the child for you. 
+A natural follow-on question is: what if the child needs to change its name prop? 
+This is usually done through child events and parent callbacks. The child might expose an event called, for example, onNameChanged. The parent would then subscribe to the event by passing a callback handler.
+
+<MyChild name={this.state.childsName} onNameChanged={this.handleName} />
+The child would pass its requested new name as an argument to the event callback
+ by calling, e.g., this.props.onNameChanged('New name'), and the parent would use the name in the event handler 
+ to update its state.
+
+handleName: function(newName) {
+   this.setState({ childsName: newName });
+
+For parent-child communication, simply pass props.
+
+Use state to store the data your current page needs in your controller-view.
+
+Use props to pass data & event handlers down to your child components.
+
+These lists should help guide you when working with data in your components.
+
+Props
+
+are immutable
+--which lets React do fast reference checks
+are used to pass data down from your view-controller
+--your top level component
+have better performance
+--use this to pass data to child components
+
+State
+
+should be managed in your view-controller
+--your top level component
+is mutable
+--has worse performance
+should not be accessed from child components
+--pass it down with props instead
+For communication between two components that don't have a parent-child relationship, 
+you can set up your own global event system. Subscribe to events in componentDidMount(),
+ unsubscribe in componentWillUnmount(), and call setState() when you receive an event. 
+ Flux pattern is one of the possible ways to arrange this. - 
+ https://facebook.github.io/react/tips/communicate-between-components.html
+
+What Components Should Have State?
+
+Most of your components should simply take some data from props and render it. However, 
+sometimes you need to respond to user input, a server request or the passage of time. For this you use state.
+
+Try to keep as many of your components as possible stateless. By doing this you'll 
+isolate the state to its most logical place and minimize redundancy, making it easier to reason about your application.
+
+A common pattern is to create several stateless components that just render data, 
+and have a stateful component above them in the hierarchy that passes its state to its children via props. T
+he stateful component encapsulates all of the interaction logic, while the stateless components take care of 
+rendering data in a declarative way.
+ - https://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#what-components-should-have-state
+
+What Should Go in State?
+
+State should contain data that a component's event handlers may change to trigger a UI update. 
+In real apps this data tends to be very small and JSON-serializable. When building a stateful component, 
+think about the minimal possible representation of its state, and only store those properties in this.state.
+ Inside of render() simply compute any other information you need based on this state. 
+ You'll find that thinking about and writing applications in this way tends to lead to the most correct application, 
+ since adding redundant or computed values to state means that you need to explicitly keep them in sync rather than 
+ rely on React computing them for you. 
+- https://facebook.github.io/react/docs/interactivity-and-dynamic-uis.html#what-should-go-in-state
+
+
+Props and state are related. The state of one component will often become the props of a child component.
+ Props are passed to the child within the render method of the parent as the second argument to React.createElement() or, 
+ if you're using JSX, the more familiar tag attributes.
+
+<MyChild name={this.state.childsName} />
+The parent's state value of childsName becomes the child's this.props.name.
+ From the child's perspective, the name prop is immutable. If it needs to be changed, 
+ the parent should just change its internal state:
+
+this.setState({ childsName: 'New name' });
+and React will propagate it to the child for you. A natural follow-on question is: 
+what if the child needs to change its name prop? This is usually done through child events and parent callbacks.
+ The child might expose an event called, for example, onNameChanged. The parent would then subscribe to the event 
+ by passing a callback handler.
+
+<MyChild name={this.state.childsName} onNameChanged={this.handleName} />
+The child would pass its requested new name as an argument to the event callback by calling, e.g.,
+ this.props.onNameChanged('New name'), and the parent would use the name in the event handler to update its state.
+
+handleName: function(newName) {
+   this.setState({ childsName: newName });
+}
+
+
+The props vs state summary I like best is here: https://github.com/uberVU/react-guide/blob/master/props-vs-state.md Big hat tip to those guys. Below is an edited version of that page:
+
+props vs state
+tl;dr If a Component needs to alter one of its attributes at some point in time, 
+that attribute should be part of its state, otherwise it should just be a prop for that Component.
+
+props
+Props (short for properties) are a Component's configuration. 
+They are received from above and immutable as far as the Component receiving them is concerned. 
+A Component cannot change its props, but it is responsible for putting together the props of its child Components. 
+Props do not have to just be data -- callback functions may be passed in as props.
+
+state
+The state is a data structure that starts with a default value when a Component mounts. 
+It may be mutated across time, mostly as a result of user events.
+
+A Component manages its own state internally. Besides setting an initial state,
+ it has no business fiddling with the state of its children. You might conceptualize state as private to that component.
+
+Changing props and state
+                                                   props   state
+    Can get initial value from parent Component?    Yes     Yes
+    Can be changed by parent Component?             Yes     No
+    Can set default values inside Component?*       Yes     Yes
+    Can change inside Component?                    No      Yes
+    Can set initial value for child Components?     Yes     Yes
+    Can change in child Components?                 Yes     No
+Note that both props and state initial values received from parents override default values defined inside a Component.
+Should this Component have state?
+State is optional. Since state increases complexity and reduces predictability, 
+a Component without state is preferable. Even though you clearly can't do without state in an interactive app, 
+you should avoid having too many Stateful Components.
+
+Component types
+Stateless Component Only props, no state. There's not much going on besides the render() function. 
+Their logic revolves around the props they receive. This makes them very easy to follow, and to test.
+
+Stateful Component Both props and state. These are used when your component must retain some state. 
+This is a good place for client-server communication (XHR, web sockets, etc.), processing data and responding to user events. 
+These sort of logistics should be encapsulated in a moderate number of Stateful Components, 
+while all visualization and formatting logic should move downstream into many Stateless Components.
+
+Most of the answers are confusing Beginners rather clarifying. It's very hard to relate and understand. You can understand it by relating it to Plain JS.
+
+In simple words,
+
+State is referred to the local state of the component which cannot be accessed and modified outside of the component and only can be used & modified inside the component.
+
+Plain JS
+
+const DummyFunction = () => {
+  let name = 'Manoj';
+  console.log(`Hey ${name}`)
+}
+React JS Equivalent
+
+class DummyComponent extends React.Component {
+  state = {
+    name: 'Manoj'
+  }
+  render() {
+    return <div>Hello {this.state.name}</div>;
+  }
+Props, on the other hand,make components reusable by giving components the ability to receive data from the parent component in the form of props.
+
+Plain JS
+
+const DummyFunction = (name) => {
+  console.log(`Hey ${name}`)
+}
+DummyFunction('Manoj');
+DummyFunction('Ajay');
+React JS
+
+class DummyComponent extends React.Component {
+  render() {
+    return <div>Hello {this.props.name}</div>;
+  }
+
+}
+// when using the component
+<DummyComponent name="Manoj" />
+<DummyComponent name="Ajay" />
+
+props (short for “properties”) and state are both plain JavaScript objects.
+ While both hold information that influences the output of render, they are different in one important way: 
+ props get passed to the component (similar to function parameters) 
+whereas state is managed within the component (similar to variables declared within a function).
+
+props vs state
+Ever since we started using React to rebuild our UI at uberVU (now Hootsuite) the #1 developer question has probably been:
+
+What's the exact difference between props and state?
+
+It's fairly easy to understand how they work—especially when seen in context—but it's also a bit difficult to grasp
+ them conceptually. It's confusing at first because they both have abstract terms and their values look the same, 
+ but they also have very different roles.
+
+Context
+The main responsibility of a Component is to translate raw data into rich HTML. With that in mind, the props and 
+the state together constitute the raw data that the HTML output derives from.
+
+You could say props + state is the input data for the render() function of a Component, so we need to zoom in
+ and see what each data type represents and where does it come from.
+
+Because we also use Cosmos where props can contain an initial state, getting this straight is crucial.
+
+Common ground
+Before separating props and state, let's also identify where they overlap.
+
+Both props and state are plain JS objects
+Both props and state changes trigger a render update
+Both props and state are deterministic. If your Component generates different outputs for the same combination of 
+props and state then you're doing something wrong.
+Does this go inside props or state?
+tl;dr: If a Component needs to alter one of its attributes at some point in time, that attribute should be part 
+of its state, otherwise it should just be a prop for that Component.
+
+props
+props (short for properties) are a Component's configuration, its options if you may. They are received from 
+above and immutable as far as the Component receiving them is concerned.
+
+A Component cannot change its props, but it is responsible for putting together the props of its child Components.
+
+state
+The state starts with a default value when a Component mounts and then suffers from mutations in time (mostly 
+generated from user events). It's a serializable* representation of one point in time—a snapshot.
+
+A Component manages its own state internally, but—besides setting an initial state—has no business fiddling 
+with the state of its children. You could say the state is private.
+
+* We didn't say props are also serializable because it's pretty common to pass down callback functions through props.
+
+Changing props and state
+props	state
+Can get initial value from parent Component?	Yes	Yes
+Can be changed by parent Component?	Yes	No
+Can set default values inside Component?*	Yes	Yes
+Can change inside Component?	No	Yes
+Can set initial value for child Components?	Yes	Yes
+Can change in child Components?	Yes	No
+* Note that both props and state initial values received from parents override default values defined inside a Component.
+
+Should this Component have state?
+state is optional. Since state increases complexity and reduces predictability, 
+a Component without state is preferable. Even though you clearly can't do without state in an interactive app,
+ you should avoid having too many Stateful Components.
+
+Component types
+Stateless Component — Only props, no state. There's not much going on besides the render() 
+function and all their logic revolves around the props they receive. This makes them very easy to follow 
+(and test for that matter). We sometimes call these dumb-as-f*ck Components 
+(which turns out to be the only way to misuse the F-word in the English language).
+
+Stateful Component — Both props and state. We also call these state managers. 
+They are in charge of client-server communication (XHR, web sockets, etc.), 
+processing data and responding to user events. These sort of logistics should be encapsulated in a 
+moderate number of Stateful Components, while all visualization and formatting logic should move downstream
+ into as many Stateless Components as possible.
+
+ Redux:
+ Why REdux ?
+
+ As the requirements for JavaScript single-page applications have become increasingly complicated, 
+ our code must manage more state than ever before. 
+ This state can include server responses and cached data, as well as locally created data that
+  has not yet been persisted to the server. UI state is also increasing in complexity, as we need 
+  to manage active routes, selected tabs, spinners, pagination controls, and so on.
+
+Managing this ever-changing state is hard. If a model can update another model, 
+then a view can update a model, which updates another model, and this, in turn, 
+might cause another view to update. At some point, you no longer understand what happens 
+in your app as you have lost control over the when, why, and how of its state.
+ When a system is opaque and non-deterministic, it's hard to reproduce bugs or add new features.
+
+As if this wasn't bad enough, consider the new requirements becoming common in 
+front-end product development. As developers, we are expected to handle optimistic updates,
+ server-side rendering, fetching data before performing route transitions, and so on.
+  We find ourselves trying to manage a complexity that we have never had to deal with before,
+   and we inevitably ask the question: is it time to give up? The answer is no.
+
+This complexity is difficult to handle as we're mixing two concepts that are very hard 
+for the human mind to reason about: mutation and asynchronicity. I call them Mentos and Coke.
+ Both can be great in separation, but together they create a mess. Libraries like React attempt 
+ to solve this problem in the view layer by removing both asynchrony and direct DOM manipulation.
+  However, managing the state of your data is left up to you. This is where Redux enters.
+
+Following in the steps of Flux, CQRS, and Event Sourcing, Redux attempts to make state 
+mutations predictable by imposing certain restrictions on how and when updates can happen. 
+These restrictions are reflected in the three principles of Redux.
+
+Redux architecture revolves around a strict unidirectional data flow.
+
+This means that all data in an application follows the same lifecycle pattern,
+ making the logic of your app more predictable and easier to understand. 
+ It also encourages data normalization, so that you don't end up with multiple,
+ independent copies of the same data that are unaware of one another.
+
+ The data lifecycle in any Redux app follows these 4 steps:
+
+You call store.dispatch(action).
+
+An action is a plain object describing what happened. For example:
+
+ { type: 'LIKE_ARTICLE', articleId: 42 }
+ { type: 'FETCH_USER_SUCCESS', response: { id: 3, name: 'Mary' } }
+ { type: 'ADD_TODO', text: 'Read the Redux docs.' }
+Think of an action as a very brief snippet of news. “Mary liked article 42.” or “'Read the Redux docs.'
+ was added to the list of todos.”
+
+You can call store.dispatch(action) from anywhere in your app, including components and XHR callbacks, 
+or even at scheduled intervals.
+
+The Redux store calls the reducer function you gave it.
+
+The store will pass two arguments to the reducer: the current state tree and the action. For example, 
+in the todo app, the root reducer might receive something like this:
+
+// The current application state (list of todos and chosen filter)
+let previousState = {
+  visibleTodoFilter: 'SHOW_ALL',
+  todos: [
+    {
+      text: 'Read the docs.',
+      complete: false
+    }
+  ]
+}
+​
+// The action being performed (adding a todo)
+let action = {
+  type: 'ADD_TODO',
+  text: 'Understand the flow.'
+}
+​
+// Your reducer returns the next application state
+let nextState = todoApp(previousState, action)
+Note that a reducer is a pure function. It only computes the next state. 
+It should be completely predictable: calling it with the same inputs many times should produce the same outputs.
+ It shouldn't perform any side effects like API calls or router transitions. These should happen before an action is dispatched.
+
+The root reducer may combine the output of multiple reducers into a single state tree.
+
+How you structure the root reducer is completely up to you. Redux ships with a combineReducers() helper function,
+ useful for “splitting” the root reducer into separate functions that each manage one branch of the state tree.
+
+Here's how combineReducers() works. Let's say you have two reducers, one for a list of todos, 
+and another for the currently selected filter setting:
+
+function todos(state = [], action) {
+  // Somehow calculate it...
+  return nextState
+}
+​
+function visibleTodoFilter(state = 'SHOW_ALL', action) {
+  // Somehow calculate it...
+  return nextState
+}
+​
+let todoApp = combineReducers({
+  todos,
+  visibleTodoFilter
+})
+When you emit an action, todoApp returned by combineReducers will call both reducers:
+
+let nextTodos = todos(state.todos, action)
+let nextVisibleTodoFilter = visibleTodoFilter(state.visibleTodoFilter, action)
+It will then combine both sets of results into a single state tree:
+
+return {
+  todos: nextTodos,
+  visibleTodoFilter: nextVisibleTodoFilter
+}
+While combineReducers() is a handy helper utility, you don't have to use it; feel free to write your own root reducer!
+
+The Redux store saves the complete state tree returned by the root reducer.
+
+This new tree is now the next state of your app! Every listener registered with store.subscribe(listener) 
+will now be invoked; listeners may call store.getState() to get the current state.
+
+Now, the UI can be updated to reflect the new state. If you use bindings like React Redux,
+ this is the point at which component.setState(newState) is called.
+
+From the very beginning, we need to stress that Redux has no relation to React. 
+You can write Redux apps with React, Angular, Ember, jQuery, or vanilla JavaScript.
+
+That said, Redux works especially well with libraries like React and Deku because 
+they let you describe UI as a function of state, and Redux emits state updates in response to actions.
+
+Event loop in  javascript:
+
+Due to the amazing quantity of libraries, tools and all kinds of things that make your development easier, 
+a lot of programmers start building applications without having the deep understanding of how something works under the hood.
+ JavaScript is the poster boy of this exact behavior. While it is one of the most complicated languages and most widely spread,
+  many developers are attracted to using higher level tools and abstracting away the “bad parts” of the language.
+
+While you will still be able to do build amazing applications doing that, going into the JavaScript maelstrom 
+can be quite beneficial to you. Understanding the “weird parts” is what separates the average grunt coder from the senior 
+developer and while the JS ecosystem is ever-changing, the fundamentals are those on top of which all other tools are built. 
+Understanding those gives you a broader perception and changes the way you look at the development process.
+
+What’s the Event Loop?
+You’ve probably heard that JavaScript is a single-threaded language. You may have even heard the terms Call Stack and Event Queue. Most people know that the Event Loop is what allows JavaScript to use callbacks and promises, but there’s a lot more to it. Without going into too much details we’ll have a high level view of how JavaScript code is actually executed.
+
+The Call Stack
+JavaScript has a single call stack in which it keeps track of what function we’re currently executing and what function is to be executed after that. But first — what’s a stack? A stack is an array-like data structure but with some limitations — you can only add items to the back and only remove the last item. Another example is a pile of plates — you put them on top of each other and at any time you can only remove the top one.
+
+When you’re about to execute a function it is added on the call stack. Then if that function calls another function — the other function will be on top of the first one in the call stack. When you get an error in the console you get a long message that shows you the path of execution — this is what the stack looked in that exact moment. But what if we make a request or put a timeout on something? In theory that should freeze the entire browser until it is executed so the call stack can continue? In practice however, you know that this doesn’t happen — because of the Event Table and Event Queue.
+
+The Event Table & Event Queue
+Every time you call a setTimeout function or you do some async operation — it is added to the Event Table. This is a data structure which knows that a certain function should be triggered after a certain event. Once that event occurs (timeout, click, mouse move) it sends a notice. Bear in mind that the Event Table does not execute functions and does not add them to the call stack on it’s own. It’s sole purpose is to keep track of events and send them to the Event Queue.
+
+The Event Queue is a data structure similar to the stack — again you add items to the back but can only remove them from the front. It kind of stores the correct order in which the functions should be executed. It receives the function calls from the Event Table, but it needs to somehow send them to the Call Stack? This is where the Event Loop comes in.
+
+The Event Loop
+We’ve finally reached the infamous Event Loop. This is a constantly running process that checks if the call stack is empty. Imagine it like a clock and every time it ticks it looks at the Call Stack and if it is empty it looks into the Event Queue. If there is something in the event queue that is waiting it is moved to the call stack. If not, then nothing happens.
+
+Here are a couple of interesting cases. In what order do you think the following code will run?
+
+setTimeout(() => console.log('first'), 0)
+console.log('second')
+Some people think that because set timeout is called with 0 (zero) it should run immediately. In fact in this specific example you will see “second” printed out before “first”. JavaScript sees the setTimeout and says “Well, I should add this to my Event Table and continue executing”. It will then go through the Event Table, Event Queue and wait for the Event Loop to tick in order to run.
+
+Exploits
+Another interesting example of the Event Loop’s behavior is recursion. Have you ever seen the stack overflow error message? You sometimes get that when you make an infinite recursion but sometimes you actually have a big number of recursive calls that you want to make. There’s a simple yet hacky workaround which will allow you to retain your code structure and still make an absurd amount of calls — wrap your recursion calls in setTimeout.
+
+Instead calling recursion() (imagine this is the name of your method) directly, you can call setTimeout(() => recursion(), 0). This will avoid the stack overflow because the calls will go through the event table and queue instead of directly piling up on the stack. Try to restrain from using that approach, but it’s a good example of JavaScript’s behavior.
+
+Conclusion
+There is a lot more going on and this is just the basic explanation of the loop and everything else around it. As much as I wanted to keep this as simple as possible there is no way to explain what the Event Loop does without going into the whole process. Something else to have in mind is that this explanation is in the context of the V8 JavaScript Engine. It’s the engine behind Chrome and is also used in Node.
+
+Hoisting :
+Hoisting
+Here I am going to do something most people won’t. I will describe what hoisting is and then explain how this is not true. Confused? Good — JavaScript should be confusing. By hoisting, we mean this exact strange behavior in which you can call a function before it was defined.
+
+In JavaScript, BEFORE the code is executed variables and functions are moved to the top. So the strange piece of code above, actually becomes:
+
+function test() {
+  console.log('working?!');
+}
+test(); // working?!
+Therefore, what we write is not exactly what is being executed. The same happens with variable definitions — they are all moved to the top of their scope (if they are declared with the ‘var’ keyword; ‘let’ variables are not being hoisted). What’s different about variables is that only their definition is moved to the top. The value assignment stays where it is, but the definition of the variable is hoisted. Therefore if we try to use a variable before a value is assigned to it we will get undefined, not an error.
+
+console.log(test) // undefined
+var test = 'working?'
+console.log(test) // working?
+This is how the above code is looking after the variables were hoisted to the top:
+
+var test;
+console.log(test) // undefined
+test = 'working?'
+console.log(test) // working?
+So be careful when you’re using function expressions, because only their declaration will hoist to the top. We’ve now got a basic understanding of how scoping and hoisting works in JavaScript, but in fact it’s quite different. The whole process of executing JS code is quite different and hoisting is not happening like most people believe. It is more of a mind concept that we carry.
+
+Inheritance:
+Due to the amazing quantity of libraries, tools and all kinds of things that make your development easier, a lot of programmers start building applications without having the deep understanding of how something works under the hood. JavaScript is the poster boy of this exact behavior. While it is one of the most complicated languages and most widely spread, many developers are attracted to using higher level tools and abstracting away the “bad parts” of the language.
+
+While you will still be able to do build amazing applications doing that, going into the JavaScript maelstrom can be quite beneficial to you. Understanding the “weird parts” is what separates the average grunt coder from the senior developer and while the JS ecosystem is ever-changing, the fundamentals are those on top of which all other tools are built. Understanding those gives you a broader perception and changes the way you look at the development process.
+
+Inheritance in JavaScript is something that has been discussed for a long time. I started learning JS by taking a bootcamp-y course that was aimed to give us the practical knowledge we’d need in our daily coding challenges. We were told how the bad JavaScript language lacks OO patterns and how we have to break our backs to make them work. The instructors quickly went through prototype and how we can mimic class behavior with it without going in depth with how it’s working (because they didn’t understand it either).
+
+So I was left with this feeling that JS is a crippled language because it lacks the abilities of the other languages to create classes out of the box so we had to do all kinds of crazy shenanigans to make it fit into what we believe was right. Then I started thinking, if it’s so hard to learn, leads to illogical behavior and there are so many roadblocks, maybe prototypes are not the right approach. After reading Kyle Simpson’s book about prototype I made the conclusion that a lot of people blame JavaScript for their own inability to learn new concepts. JS has it’s specifics and I’ll go through how prototypical inheritance works and what are it’s problems.
+
+What’s Prototype?
+Almost all objects in JavaScript have the prototype property. By using it and more specifically the prototype chain we can mimic inheritance. The prototype is a reference to another object and it is used whenever JS can’t find the property you’re looking for on the current object. Simply put, whenever you call a property on an object and it doesn’t exist, JavaScript will go to the prototype object and look for it there. If it finds it it will use it, if not it will go to that object’s property and look there. This can bubble up all the way to Object.prototype before returning undefined. This is the essence of the prototype chain and the behavior that sits behind JavaScript’s inheritance.
+
+
+The above code can be overwhelming when you first encounter prototypes, let’s break it down. We’ll start from line 20 — with the new keyword we create a new object using the Dog constructor function on line 9. That gives us an object with a name property and a makeSound function bound to it’s prototype. When we call makeSound it is executed in the context of the current object (dog) and we get the correct output.
+
+When we call sleep() it obviously doesn’t exist on Dog, so it goes up the prototype chain to Animal. It finds it there and calls it. On the last line we call the missing() function which is not defined anywhere. It will go all the way up the prototype chain to Object.prototype and since it won’t find it there it will throw an error.
+
+As you see we haven’t used the word class anywhere, we haven’t defined a class that extends the base one or something like that. This is more of a delegation than inheritance. Every object has this prototype property which points to another object which should be delegated responsibility in case the property we’re looking for is not found on the current one. There’s nothing fancy about that, the object is just delegating responsibilities to it’s superior whenever it can’t handle the task.
+
+Shadowing
+If we look through the prism of inheritance once again we know that we often need to override properties and methods. In prototypical inheritance this is called shadowing.
+
+
+What we’re doing here is creating a property with the same name on Dog’s prototype, so when we call it it will find it there and stop the prototype chain bubbling. As you can see, we’re not using the override keyword anywhere, we’re just declaring the property on the Dog object so JavaScript won’t start looking for it in the prototype chain.
+
+Problems with Inheritance
+If you’ve read my previous articles with the same label, here is the point in which I tell you that JavaScript always has it’s specifics and not understanding them correctly can give you a big headache. At some point you may have to use shadowing on a property, but then inside of it call the “parent” function with the same name. While in most other languages you can just use super(), here things are a bit trickier. If you use this approach and call this.sleep() inside of the shadowed function, you will end up calling the same function and the result will be a recursion. Therefore we must think of another way to solve the problem.
+
+Dog.prototype.sleep = function() {       
+  Animal.prototype.sleep();
+}
+This sounds like a good approach at first and it almost is, but if you execute it you will see that you will not get the result you expect because the contextual binding is not correct.
+
+Dog.prototype.sleep = function() {
+  Animal.prototype.sleep.call(this);
+}
+By executing it like this however we call the function on Animal using the contextual binding of the current function. In other words we call Animal’s sleep function using the current Dog’s data, I can’t explain it much simpler than that.
+
+The concept of Inheritance
+For me, one of the hardest things to wrap my head around was the prototype keyword meaning. I was trying to make some mental connection between the word and the process of inheritance until I realized that they really have no connection. What we’re doing is just abusing the prototype behavior delegation in order to mimic inheritance while in fact we don’t have it. In order to give you another example of how our conception of class based hierarchies is different than JS prototypes — I present you the constructor property.
+
+This is a property on Object.prototype and it returns the constructor function that created the object that we’re calling this on. Not the name of the function but the function itself. What do you think would happen if we log into the console the constructor property of the dog variable? You probably expect it to return the Dog function, but you will be surprised.
+
+console.log(dog.constructor); // [Function: Animal]
+Wait what? This is returning the Animal function because it is attached to the Dog property upon object creation. This once again shows that those methods and properties weren’t implemented with OO design in mind.
+
+ES6 Classes
+As of ES6 you can say that the inheritance hierarchy problems in JavaScript is solved. We got the class keyword together with all other goodies that come with it. We can now define classes, extend them, use constructors and the super keyword to access parent methods without the ugliness of the code above.
+
+
+This looks a lot better if you’re already familiar with classes. It removed the unnecessary repetition of the prototype keyword, the use of Object.create() and the dark magic that we had to do in order to call a “parent” function. You also have the proper syntax and it’s much easier to understand what is going on. The ES6 code and the prototype code above are more or less doing the exact same thing, but the one of the new standard is times easier to understand.
+
+Now something that you need to bear in mind is that this syntax is (mostly) just a beautified version of the prototype. It really simplifies the development process by making things easier for people with background in other languages to understand. But something that needs to be considered is that because of that same reason — ES6 classes being syntactic sugar over prototype — there are still some issues.
+
+Because the prototype approach is more like delegation rather than real inheritance, “parent” objects are passed as a reference. In other languages, upon creating an object, you get a copy of it’s functionality, including the parent classes. Therefore in JS, a child object can access “parent” functions even if they are created after the child object. This is due to the fact that prototype is just a reference, not a concrete object. It’s a hotline that objects use to find a way out when they are missing a particular property.
+
+Conclusion
+Until the introduction of “real” classes in ES6, the whole concept of inheritance was messed up and (usually) taught in a wrong manner. Prototypes are more of a delegation tool and they don’t really behave like classes. Now with the modern approach we can pretty much create normal class hierarchies and use understandable syntax for them, but be wary of possible problems that may occur. This syntax is only a beautiful facade for what’s going on inside.
+
+Prototypes in javascriptt :
+Nearly all objects in JavaScript are instances of Object; a typical object inherits properties (including methods) from Object.prototype, although these properties may be shadowed (a.k.a. overridden). However, an Object may be deliberately created for which this is not true (e.g. by Object.create(null)), or it may be altered so that this is no longer true (e.g. with Object.setPrototypeOf).
+
+Changes to the Object prototype object are seen by all objects through prototype chaining, unless the properties and methods subject to those changes are overridden further along the prototype chain.  This provides a very powerful although potentially dangerous mechanism to override or extend object behavior.
+
+https://hackernoon.com/prototypes-in-javascript-5bba2990e04b
+
+https://hackernoon.com/create-objects-in-javascript-10924cfa9fc7
+
+https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-promise-27fc71e77261
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
+https://developers.google.com/web/fundamentals/primers/promises
+
+https://hackernoon.com/understanding-promises-in-javascript-13d99df067c1
+
+https://codeburst.io/javascript-promises-explained-with-simple-real-life-analogies-dd6908092138
+
+Promises in javascript:
+A promise is an object that may produce a single value some time in the future: either a resolved value, or a reason 
+that it’s not resolved (e.g., a network error occurred). A promise may be in one of 3 possible states: fulfilled, rejected, or 
+pending. Promise users can attach callbacks to handle the fulfilled value or the reason for rejection.
+
+How Promises Work
+A promise is an object which can be returned synchronously from an asynchronous function. It will be in one of 3 possible states:
+
+Fulfilled: onFulfilled() will be called (e.g., resolve() was called)
+Rejected: onRejected() will be called (e.g., reject() was called)
+Pending: not yet fulfilled or rejected.
+
+A Promise is an object representing the eventual completion or failure of an asynchronous operation. 
+Since most people are consumers of already-created promises, this guide will explain consumption of 
+returned promises before explaining how to create them.
+
+Essentially, a promise is a returned object to which you attach callbacks, instead of passing callbacks into a function.
+
+Imagine a function, createAudioFileAsync(), which asynchronously generates a sound file given a 
+configuration record and two callback functions, one called if the audio file is successfully created, 
+and the other called if an error occurs.
+
+Here's some code that uses createAudioFileAsync():
+
+function successCallback(result) {
+  console.log("Audio file ready at URL: " + result);
+}
+
+function failureCallback(error) {
+  console.log("Error generating audio file: " + error);
+}
+
+createAudioFileAsync(audioSettings, successCallback, failureCallback);
+…modern functions return a promise you can attach your callbacks to instead:
+
+If createAudioFileAsync() were rewritten to return a promise, using it could be as simple as this:
+
+createAudioFileAsync(audioSettings).then(successCallback, failureCallback);
+That's shorthand for:
+
+const promise = createAudioFileAsync(audioSettings); 
+promise.then(successCallback, failureCallback);
+We call this an asynchronous function call. This convention has several advantages. We will explore each one.
+
+
+
+JavaScript has a concurrency model based on an "event loop". This model is quite different from models in other languages like C and Java.
+
+Runtime conceptsSection
+The following sections explain a theoretical model. Modern JavaScript engines implement and heavily optimize the described semantics.
+
+Visual representationSection
+Stack, heap, queue
+
+StackSection
+Function calls form a stack of frames.
+
+function foo(b) {
+  var a = 10;
+  return a + b + 11;
+}
+
+function bar(x) {
+  var y = 3;
+  return foo(x * y);
+}
+
+console.log(bar(7)); //returns 42
+When calling bar, a first frame is created containing bar's arguments and local variables. When bar calls foo, a second frame is created and pushed on top of the first one containing foo's arguments and local variables. When foo returns, the top frame element is popped out of the stack (leaving only bar's call frame). When bar returns, the stack is empty.
+
+HeapSection
+Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+
+QueueSection
+A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
+
+At some point during the event loop, the runtime starts handling the messages on the queue, starting with the oldest one. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function's use.
+
+The processing of functions continues until the stack is once again empty; then the event loop will process the next message in the queue (if there is one).
+
+Event loopSection
+The event loop got its name because of how it's usually implemented, which usually resembles:
+
+while (queue.waitForMessage()) {
+  queue.processNextMessage();
+}
+queue.waitForMessage() waits synchronously for a message to arrive if there is none currently.
+
+"Run-to-completion"Section
+Each message is processed completely before any other message is processed. This offers some nice properties when reasoning about your program, including the fact that whenever a function runs, it cannot be pre-empted and will run entirely before any other code runs (and can modify data the function manipulates). This differs from C, for instance, where if a function runs in a thread, it may be stopped at any point by the runtime system to run some other code in another thread.
+
+A downside of this model is that if a message takes too long to complete, the web application is unable to process user interactions like click or scroll. The browser mitigates this with the "a script is taking too long to run" dialog. A good practice to follow is to make message processing short and if possible cut down one message into several messages.
+
+Adding messagesSection
+In web browsers, messages are added anytime an event occurs and there is an event listener attached to it. If there is no listener, the event is lost. So a click on an element with a click event handler will add a message--likewise with any other event.
+
+The function setTimeout is called with 2 arguments: a message to add to the queue, and a time value (optional; defaults to 0). The time value represents the (minimum) delay after which the message will actually be pushed into the queue. If there is no other message in the queue, the message is processed right after the delay; however, if there are messages, the setTimeout message will have to wait for other messages to be processed. For that reason, the second argument indicates a minimum time and not a guaranteed time.
+
+Here is an example that demonstrates this concept (setTimeout does not run immediately after its timer expires): 
+
+const s = new Date().getSeconds();
+
+setTimeout(function() {
+  // prints out "2", meaning that the callback is not called immediately after 500 milliseconds.
+  console.log("Ran after " + (new Date().getSeconds() - s) + " seconds");
+}, 500);
+
+while(true) {
+  if(new Date().getSeconds() - s >= 2) {
+    console.log("Good, looped for 2 seconds");
+    break;
+  }
+}
+Zero delaysSection
+Zero delay doesn't actually mean the call back will fire-off after zero milliseconds. Calling setTimeout with a delay of 0 (zero) milliseconds doesn't execute the callback function after the given interval.
+
+The execution depends on the number of waiting tasks in the queue. In the example below, the message ''this is just a message'' will be written to the console before the message in the callback gets processed, because the delay is the minimum time required for the runtime to process the request, but not a guaranteed time.
+
+Basically, the setTimeout needs to wait for all the code for queued messages to complete even though you specified a particular time limit for your setTimeout.
+
+(function() {
+
+  console.log('this is the start');
+
+  setTimeout(function cb() {
+    console.log('this is a msg from call back');
+  });
+
+  console.log('this is just a message');
+
+  setTimeout(function cb1() {
+    console.log('this is a msg from call back1');
+  }, 0);
+
+  console.log('this is the end');
+
+})();
+
+// "this is the start"
+// "this is just a message"
+// "this is the end"
+// note that function return, which is undefined, happens here 
+// "this is a msg from call back"
+// "this is a msg from call back1"
+Several runtimes communicating togetherSection
+A web worker or a cross-origin iframe has its own stack, heap, and message queue. Two distinct runtimes can only communicate through sending messages via the postMessage method. This method adds a message to the other runtime if the latter listens to message events.
+
+Never blockingSection
+A very interesting property of the event loop model is that JavaScript, unlike a lot of other languages, never blocks. Handling I/O is typically performed via events and callbacks, so when the application is waiting for an IndexedDB query to return or an XHR request to return, 
+it can still process other things like user input.
+
+
+
+
+
+Promise Thing :
+===============
+promise thing solves it?
+
+-Indeed. By manipulating your callbacks through promises, you can write easier to understand code, mock and test them,
+ as well as perform simultaneous requests at once and wait until all of them are loaded.
+

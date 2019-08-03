@@ -1,0 +1,1 @@
+A developer notes for React revision.

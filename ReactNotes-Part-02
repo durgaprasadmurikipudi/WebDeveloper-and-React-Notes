@@ -1,0 +1,2529 @@
+Install babel, live server.
+
+yarn add babel-cli@6.24.1 live-server 
+
+to check if babel was already installed, type out : babel --help
+
+commands and their uses:
+========================
+
+
+1.  yarn add babel-preset-react@6.24.1
+	Install preset for Babel, such that it can compile react js library- latest version at the time of course is 6.24.1
+
+2.  yarn add babel-preset-env@1.5.2
+    Env for like ES5, ES6, ES7
+
+3.  yarn init
+	This command walks you through an interactive session to create a package.json
+	If you already have an existing package.json file, then it will use the file’s entries as defaults.
+
+4.  babel src/app.js --out-file=public/scripts/index.js --presets=env,react --watch
+	command to compile the react js scripted file to a normal js file and also that --watch flag enables a continuous watch on 
+    reactjs script file if its being edited.
+
+5.  live-server Public
+	Launch reactjs app 
+
+6.  yarn add webpack@3.1.0
+    Asset bundler. Inbuilt minifier.
+
+7.  yarn add react@16.0.0 
+    To use in javascript files 
+
+8.  yarn add react-dom@16.0.0
+    To use in javascript files by importing them [like node_modules]
+
+9.  yarn add babel-core@6.25.0
+    To add babel loader to webpack. Difference between babel-cli and babel-core is babel-cli can be used from command line
+    , while babel-core can be used as plugin to get the babel functionality.
+
+10. yarn add babel-loader@7.1.1
+    To teach webpack on how to use babel loader.
+
+11. yarn add react-router-dom@4.2.2
+
+12. yarn add react-redux@5.0.5
+    a library to connect reac and redux.
+
+Git Instructions:
+1. git init : To start tracking your project with git.
+2. git add <package.json>: format:  git add <filename> : After starting the tracking under git, you specify files to specifi
+                                                         cally track. Also to move modified files to staged state.
+3. git add Public : you can also start tracking a directory and all subdirectories and files in it by add option/cmd.
+4. git commit -m "Initial version of Indecision app project": git commit to commit files present in staged to Commited stage.
+5. git status : To check for files present in modified files and staged files.
+6. git rm --cached node_modules/ - To untrack tracked files.
+7. git update-index --assume-unchanged node_modules : same as above cmd.
+8. git tag -a v0.1 -m "Init version" : To add tag to the current commited version.
+9. git show v0.1 -m "Init version" : To show the tag details and all the code perhaps..
+10. git remote add Indecision https://github.com/durgaprasadmurikipudi/IndecisionApp.git : format: git remote add <Indecision : remote branch name>
+                                                                                                   <write the url>
+                                                                                                   To add a remote repository to git.
+
+11. git remote -v : To show all the remote repositories present.
+12. git push --set-upstream Indecision master: format : git <push : set the destination for pushing changes> <--set-upstream :
+                                                        flag to indicate a remote repository> <Indecision : name of the remote 
+                                                        repository> <master : branch that you wish to get pushed>
+13. git push Indecision master : to push your local master branch changes to remote repo Indecision master and that too master 
+                                 branch. By defaul the working branch will be pushed and you need not mention it perhaps.
+14. git fetch Indecision master: format : git <fetch : indicate action of fetch> <Indecision : remote repo name> 
+                                          <master: branch in that>
+15. git pull Indecision master: format : git <pull : indicate action of pull, merges all changes.> 
+                                         <Indecision : remote branch name> <master: branch in that repo>
+16. git log --oneline --decorate : basically to see all tags.
+
+
+React-Router:
+=============
+
+const EditExpensePage = () => ( // Some stateless component
+    <div>
+        This is expense edit page!
+    </div>
+);
+
+const HelpPage = () => (
+    <div>
+        This is Help page!
+    </div>
+);
+
+const routes = ( // beware, just a jsx expression, not a stateless component.
+    <BrowserRouter> // Thirdparty Component.
+        <div>
+            <Route path="/" component={ExpenseDashboardPage} exact={true}/> // Thirdparty component.
+            <Route path="/create" component={AddExpensePage} />            
+            <Route path="/edit" component={EditExpensePage} />
+            <Route path="/help" component={HelpPage} />
+        </div>
+    </BrowserRouter>
+);
+
+ReactDOM.render(routes, document.getElementById("app")); // rendering the routes JSX expression.
+
+BrowserRouter:
+
+BrowserRouter allows only child to be present.
+So we enclose all routes in one children 'div' tag.
+
+Route tag basically takes in the path , the component (to be displayed when path is matched).
+
+Exact parameter to Route tag basically specifies that there should be an exact match to it.
+
+when the user enters the url '/create', webpack dev-server basically searches for /create folder.
+
+So we set up in webpack.config.js
+
+in devServer attribute,
+historyApiFallback: true.
+
+So again index.html is served when create path is not found and here, react router activates and 
+then displays the component associated with create page.
+
+basically here wht happens is react router checks for the history api and sees that last visisted is
+path: '/create' and activates that component.
+
+Setting up a 404 page:
+
+<BrowserRouter>
+        <Switch> // This bascially stops when there is a match, if we dont mention this all the
+                 // routes that are matching will be displayed. we can use exact instead, but how
+                 // to set up a 404?, we cant define all possible paths :P
+            <Route path="/" component={ExpenseDashboardPage} exact={true}/>
+            <Route path="/create" component={AddExpensePage} />            
+            <Route path="/edit" component={EditExpensePage} />
+            <Route path="/help" component={HelpPage} />
+            <Route component={NotFoundPage} /> // bascially when a path is not mentioned, the 
+                                               // componet associated with that route is always displayed.
+                                               // so by using switch, if there is match that route
+                                               // gets handled. Else this route activates. so we keep this as 404 error.
+        </Switch>
+    </BrowserRouter>
+
+    So far, we type the link, the page is being refreshed. Everythime it's hitting server.
+
+    So let's go to client side routing.
+
+How do we do that, 
+by invoking the link programatically. 
+
+import { NavLink} from 'react-router-dom';
+
+export const Header = () => (
+    <div>
+        <p><b>Expensify!!</b></p>
+        <NavLink to="/" activeClassName="is-active" exact={true}>Dashboard</NavLink>
+        //  Navlink is a special kind of link in that, it basically takes in more inputs than link 
+        // to customise it. Here we mention the activeClassName to specify which css class to be
+        // applied when clicked or activated. It also checks for the current path in broser and
+        // the path defined in it. exact property just like the usage in routes, to match 
+        // the current path in browser exactly.
+        <NavLink to="/create" activeClassName="is-active">Add</NavLink>
+        <NavLink to="/edit" activeClassName="is-active">Edit</NavLink>
+        <NavLink to="/help" activeClassName="is-active">Help</NavLink>
+    </div>
+);
+
+Thus way, we achieve client side routing.
+
+Query Strings and URL Params:
+
+
+<BrowserRouter>
+    <div>
+        <Header />
+        <Switch>
+            <Route path="/" component={ExpenseDashboardPage} exact={true}/>
+            <Route path="/create" component={AddExpensePage} />            
+            <Route path="/edit/:id" component={EditExpensePage} />
+            // We never ever edit something like null,
+            // like almost we have to have a value to edit it.
+            // How we are gonna pass it via query parameters?
+            // React tools give a way to access it, in the path if you mentiond :<varname>
+            // you get to access that in the component.
+            <Route path="/help" component={HelpPage} />
+            <Route component={NotFoundPage} />
+        </Switch>
+    </div>
+    </BrowserRouter>
+
+    we can access in the componet via ?
+
+    import React from 'react';
+
+export const EditExpensePage = (props) => {
+    console.log(props);
+    return (
+        <div>
+            Editing id of {props.match.params.id}! // Every componet gets access to props
+            // and in here props provide 3 imports and some other also attributes
+            // 1. History, 2. Match , 3. Location
+            // In match, as shown above we get the id value we visisted in the route by 
+            // match.params.id.
+
+        </div>
+    );
+}
+
+One important thing about it.
+An error I encountered while doing this is that it could not find file edit/99/bundle.js
+Q & A section has discussion about it and is as follows:
+
+Q: As far as I know they both do the same thing but if I put ./bundle.js  in index.html instead of 
+/bundle.js it can't find the file for edit/99 . 
+It is working properly for the rest of the links though. 
+
+A: The relative path ./ looks for a file called bundle.js that is in the same directory as the file in which you're using ./ 
+
+The root path / looks for a file called bundle.js from the root of the web server.
+
+If you use a relative path for .../edit/99 it'll try to look for the bundle.js file in .../edit/99/bundle.js because it 
+thinks you're in a folder called "99" which is in a folder called "edit".
+
+If you use the root path, it looks in the same place every time.
+
+
+Another thing about Switch and Routes:
+
+<Switch>
+            <Route path="/" component={ExpenseDashboardPage} exact={true}/>
+            <Route path="/create" component={AddExpensePage} />  
+            <Route path="/expenses/" component={ExpensesPAge} exact={true}/>          
+            <Route path="/expenses/:id" component={IndividualExpensePAge} />
+            <Route path="/help" component={HelpPage} />
+            <Route component={NotFoundPage} />
+</Switch>
+
+
+if you see above, for route 'expenses, we have to keep the exact to be true,
+else if you click expenses/:id switch will match the partial path /expenses and keep on displaying
+the expenses page.
+so keep it exact and let the individual expenses page come up.
+
+Redux:
+======
+
+State management javascript library.
+why do we need a state management ?
+We somehow managed in Indecision app, why do we worry that in the ExpensifyApp.
+
+The thing is in Indecision App the state is centrally managed in IndecisionApp component,
+
+So when we add an option in AddOption component, the state that is centrally maintained gets changed,
+the components, that use them like Options component get re-rendered, as the props passed to them 
+got changed, and this is automatically done by react as a rule. That is, to re-render the components,
+whose props passing to them are changed.
+
+What about the ExpensifyApp app, here we don't have a parent component, 
+we manage all the component's by router concept. How do we pass the information of state change in
+one component to another component?
+
+Another problem is components are not really re-usable,
+
+consider an example, whereyou want to put the button in header, that when clicked does the same
+thing as the action component does.. that is, pick a random option out of the entered options.
+
+So you add the Action component in Header component, right ?
+yess, becuase one main motivation to break our code into components is for re-usability.
+So if we are gonna do the same thing as one existing component does, we might as well re-use it.
+
+Now what, does action in header works ? Nope.. Why, header doesn't have access to props which action component needs.
+It was never passed the props from Indecision app, so it never knew they exist.
+so now for to make the Action component work, we need to pass the header the props,
+handlePick and hasOptions that action component needs, which is purely irrelevant to Header.
+
+There you go, the beginning of spaghetti code.
+This is going to be much more trouble when the component is to be reused in component which is nested 
+deep inside of 3 or more components,
+all the parent components above must be changed.
+
+Also, this is great example of tight - binding, which we do not want.  
+Usage of props is recomended when parent passes the child the required data.
+But it is not recomended when the props are handed over to the child component, just so that some deep
+inside nested component can have access to it.   
+
+Also, the action component could not be reused without changing the component,
+where it was meant to be used. Becasue this particular child component expects a lot more data from it's parents
+wherever it is declared.
+
+A re-usable component, should be more like a plugin.
+
+This is where react-redux steps in.
+
+Fo example in AddExpensePage or EditExpensPage, we can have a addExpense Component, yes true,
+in both the components we can reuse it and where ever it's used, the state changed via it
+can be made accessed accross all the components by redux.
+
+With redux, each component, makes its interface much more cleaner by declaring two things, what data it needs,
+what data it modifies, thus allowing re-usability.
+
+@yarn
+yarn add  redux@3.7.2
+
+import {createStore from 'redux'} // To create store, we need to import this createSore from redux.
+
+const store = createStore ((state= {count : 0}) => { // calling createStore to create a store. Passing a function that returns
+                                                     // the component state.
+                                                     // Here we are just returning a default state.
+                                                     // That default state is also passed by default parameters to state object.
+    return state;
+});
+
+console.log(store.getState()); // To get the state store in the store.
+
+Now, that we created a default object, how do we change the state in the store. This is done via actions.
+
+const store = createStore( (state = {count: 0}, action ) => { //creating store as usual,
+                                                              // passing the default state object to state parameter.
+                                                              // passing the action, more about it below.
+    switch (action.type)
+    {
+        case 'INCREMENT':   //action is an object and it will have an property type. based on it we can write code to          
+                            // manipulate our state.
+            return {
+                count : state.count + 1
+            };
+        case 'DECREMENT':
+            return {
+                count: state.count - 1
+            };
+        case 'RESET':
+            return {
+                count: 0
+            };
+        default:
+            return state;
+    }
+});
+
+console.log(store.getState());
+
+store.dispatch({ // Displatch is an action, that when called inherently manipulates the state object.
+                 // see store, is pointing to whatever the createStore has returned.
+                 // this includes state out of several other things.
+                 // when you call this dispatch function on this store object, it takes in a object parameter,
+                 // where it has one mandatory property, 'type'. Generally as per convention,
+                 // defines the action that you want to take, it's a string value and full of capital letters.
+    type: 'INCREMENT'
+});
+
+store.dispatch({ 
+    type: 'INCREMENT'
+});
+
+store.dispatch({
+    type: 'RESET'
+});
+
+Subscribing and unsubscribing
+=============================
+
+store.subscribe( ()=> { // This is how you subscribe to a event when the state present in store changes.
+                        // you pass a funcion as a parameter to subscribe, which will be triggered whenever, store changes.
+    console.log(store.getState());
+});
+
+const unsubscribe = store.subscribe( ()=> {   // Whenever you subscribe an event, it returns a function, that when called, will
+                                              // remove this correspondent subscription.                      
+    console.log(store.getState());
+});
+
+we can pass additional dynamic data by action as below:
+store.dispatch({
+    type: 'INCREMENT',
+    incrementBy: 10
+});
+
+ES6 Object Destructuring:
+=========================
+const PErson = {
+    name: 'Andrew',
+    age: 27,
+    location : {
+        city: 'Philadelphia',
+        temp: 27
+    }
+}
+
+const {name: firstName = 'Anonymous'} = person; // name: same property name as 'name' property in person, 
+                                                // ': firstName': syntax to rename the variable in object Destructuring
+                                                // = 'Anonymous', syntax to assign some default value.
+
+console.log(`${firstName} is ${age}`); //this works!
+
+
+const {temp: temparature} = person.location
+console.log(`${temperature}`);
+//the above works too!
+
+
+ES6 Arry Destructuring
+======================
+
+For object destructuring we used {}, for array destructuring we have to use [] operator.
+
+lets take an array const address = ['KPHB Colony', 'Hyderabad', 'Telangana'];
+
+const [colony, city, state] = address;
+
+console.log(`I livin in ${colony}, located in ${city}, in ${state});
+
+better than, sligthtly ambiguous
+console.log(`I livin in ${address[0]}, located in ${address[1]}, in ${address[2]});
+
+const[, city ] = addressand console.log(`I live in ${city}`); // still works, you did not want the first parameter, so you
+just keep a comma, you did not want the last item, just leave it. Don't mention in array destructuring.
+
+Action Generators
+=================
+
+you just wrap the action object in a function.
+
+using Object destructuring while constructing Action Generator.
+
+const incrementStore = (payload = {}) => { // expects an object parameter, if one is not provided, the default object 
+                                           // is set via the javascript default parameter syntax.
+    return {
+        type: 'INCREMENT',
+        incrementBy : typeof payload.incrementBy === 'number' ? payload.incrementBy : 1
+    };
+};
+
+
+we can vastly simplify the above in the below way:
+
+const incrementStore = ({incrementBy = 1} = {}) => { ///
+                                                     // There are 3 things to observe here,
+                                                     // 1. default parameters is used,
+                                                     // 2. object destructuring is used,
+                                                     // 3. oject destructuring - default parameter is used.
+                                                     // No parameter sent, then case 1, handles.
+                                                     // An object sent with required property, then case 2 handles, 
+                                                     // an object sent, but no required proeprty present, then case 3 handles.
+    return {
+        type: 'INCREMENT',
+        incrementBy // If the property name we are setting and the parameter from we are taking the value to set is same, then 
+                    // we can just simply keep the paramter name, no assignation needed.
+    };
+};
+
+further simplifying:
+
+const incrementStore = ({incrementBy = 1} = {}) => ({
+        type: 'INCREMENT',
+        incrementBy // If the property name we are setting and the parameter from we are taking the value to set is same, then 
+                    // we can just simply keep the paramter name, no assignation needed.
+    });
+
+
+store.dispatch(incrementStore({incrementBy: 5})); // This is how you dispatch the dynamic actions.
+
+store.dispatch(incrementStore());
+
+store.dispatch(resetStore());
+
+Reducers:
+=========
+
+ACtions tell us that something happened, reducers job is to act accordingly to change the application state.
+
+Reducers are pure functions.
+The output is determined by only on the inputs.
+It neither depends on or changes any external state(or things outide of the function scope). 
+Simply put, they don't have any side effects.
+
+All is that the changes are localised to the function.
+
+Here in reducer, it depends only on the input state and other parameter 'action'.
+
+At the end of the day it return's the new state, that is  how it manages the state in redux.
+
+Working with Multiple Reducer's.:
+=================================
+
+Why do we need multiple reducer's anyway ?
+
+let's just see the state required by Expensify to carry out it's required functions:
+
+const demoState = {
+    expenses: [{ //an object array, to store the object expenses,
+        id: '#unique-id',
+        description: '',
+        note: '',
+        amount: 0,
+        createdAt: 0 // This is should be a timestamp we will change it later.
+
+    }],
+    filters : {
+        text: 'rent',
+        sortBy: 'amount' // amount or date.
+        startDate: undefined,
+        endDate: undefined
+    }
+}
+
+See the whole above complex state, a reducer function for it sure gonna be long, there would be lots
+of actions generators required for it.
+No of action generator's is not a problem, but handling all of them in single reducer function,
+is sure gonna be clumsy.
+
+combineReducers from redux, gonna be handy.
+
+const store = createStore( // Here, we are gonna call combineReducers, it takes a parameter object.
+                           // The parameter object parameters are multiple reducer functions, that you wish to combine.
+                           // It returns a single reducer function, that handles all the reducer functions as a whole,
+                           // Thus way we can edit and still maintain readability.
+    combineReducers({
+        expenses: expensesReducer,
+        filters: filterReducer
+    })
+);
+
+****one important thing, while creating a reducer function, always and always, pass a default value to the state.
+And also keep a default thing in switch, which returns the state unmodified.
+This is very important while creating combineReducers.
+As the actions dispatched to the store are internally applied to every reducer function in combinedReducer,
+one that is intended to will change the application state as wished by action, rest all simply give out the default state,
+and that means they did not react to the action.
+
+Spread operator in ES6:
+=======================
+
+const array = [1, 2];
+array.push(3); // array => [1, 2, 3]
+array.concat(4); // returns [1, 2, 3, 4]. but array value will be [1, 2, 3]
+or we can produce a smilar array as the return value like above by using spread syntax.
+
+[...array, 4] // return value of this is [1, 2, 3, 4]
+
+usage in our app, while adding the expense.
+
+const expensesReducer = (state = expensesDefaultState, action) => {
+    switch(action.type) {
+        case 'ADD_EXPENSE':
+            return [...state, action.expense]; // usage of spread operator.
+        default:
+            return state;
+    }
+};
+
+
+Spreading Objects:
+==================
+const user = {
+    name: 'jen',
+    age: 26
+}
+
+console.log({
+    ...user,
+    location: 'philadelphia'
+}); // { name: 'jen', age: 26, location: 'philadelphia' }
+
+
+overriding: 
+===========
+console.log({
+    ...user,
+    location: 'philadelphia',
+    age: 27
+
+}); // { name: 'jen', age: 27, location: 'philadelphia' }
+
+To better appreciate the object rest spread take a look at the use case of edit expense in ExpensifyApp.
+
+const editExpense = (id, expenseUpdates) => ({ // Action generator for Edit Expense.
+    type: 'EDIT_EXPENSE',
+    id,
+    expenseUpdates
+});
+
+const expenseOne = store.dispatch(addExpense({ description: 'rent', amount: 50000}));
+const expenseTwo = store.dispatch(addExpense({ description: 'coffee', amount: 300}));
+// Dispatch function returns the action object sent.
+
+store.dispatch(removeExpense(expenseOne.expense.id));
+store.dispatch(editExpense(expenseTwo.expense.id, {amount: 250, note: 'A regular coffee is all you need!'}));
+
+// dispatching the action for Edit expense, we are just changing the anount and note. Leaving id and description as is.
+
+const expensesReducer = (state = expensesDefaultState, action) => {
+    switch(action.type) {
+        case 'ADD_EXPENSE':
+            return [...state, action.expense];
+        case 'REMOVE_EXPENSE':
+            return state.filter(({ id }) => id !== action.expenseId); 
+        case 'EDIT_EXPENSE':            
+            return state.map( (expense) => { // Edit expense returns a new array modifying each element as below:
+                if(expense.id === action.id){ // if the expense id matches with edit request's id, then 
+                                              // object spread of original object and then rest object spread of update object
+                                              // thus way whatever the properties present in update object, override the proeprty 
+                                              // values in expense object.
+                    return {...expense, ...action.expenseUpdates}
+                }
+                else return expense;
+            });
+        default:
+            return state;
+    }
+};
+
+Connecting React and Redux:
+===========================
+
+LEts go ahead and create seperate directories for the discrete structures present.
+actions folder for 'action generators',
+reducers folder for 'reducer functions'
+selectors for 'visible store'
+store to confgure 'redux store'
+
+Higher Order Component:
+=======================
+
+So far, we used redux to maintain the state in 'vanila javascript'.
+that's right, now lets connect react and redux.
+
+we are gonna import 'react-redux' library.
+It's gonna make use of patter called, 'Higher order component', through which we integrate react and redux.
+
+
+HOC - Higher Order Component, A component, that renders, another component.
+benfits ?
+reuse code,
+Techniques:
+render hijacking, prop manipulation,
+abstract state.
+
+const info = (props) => ( // A regular component, that you want to display.
+    <div>
+        <h1>Info:</h1>
+        <p>The info is: {props.info}</p>
+    </div>
+);
+
+const withAdminInfo = (WrappedComponent) => { // The HOC, you can increase more components by passing them as parameters.
+    return (props) => (
+        <div>
+            {props.isAdmin && <p>This is private info, please don't share!</p>} // Resusing code for every component.
+            <WrappedComponent {...props} /> // Some tricky and cool usage of spread operator. Dynamically passing data.
+        </div>
+    );
+
+};
+
+const AdminInfo = withAdminInfo(info);
+
+ReactDOM.render(<AdminInfo info="This is the info." isAdmin={true}/>, document.getElementById('app'));
+
+React-redux library is a small library. It just provides two functions in it's api.
+
+const jsx = (
+    <Provider store={store}> // This is all you need to write in app.js
+        <AppRouter/> // Here, what just happens is, App router gets all the data by provider.
+                     // One thing, not known is, how does AppRouter gets the required data passed down
+                     // from Provider component.
+                     // From the documentation, it is said that, whatever the component, that reside 
+                     // in Provider component, gets the data somehow.
+    </Provider>
+);
+
+ReactDOM.render(jsx, document.getElementById("app"));
+
+One question in react learning we have to ask is.. does all the components nested inside a component get
+the data, when the parent component have access to some particular data without explicitly passing them down to children ?
+
+export const ExpenseDashboardPage = () => (
+    <div>
+        This is expense  page!
+        <ExpensesList /> // To display expenses.!!
+    </div>
+);
+
+const ExpensesList = (props) => (
+    <div>
+        <h1>Expenses List!!!!!!!</h1>
+        <div>{props.expenses.length}</div> // displaying the data from props, nothing fancy!
+    </div>
+);
+
+const mapStateToProps = (state) => { // just a rather normal function.
+    return {
+         expenses: state.expenses
+        };
+};
+
+const ConnectedExpensesList = connect(mapStateToProps)(ExpensesList); // Earth shattering!!!!!!!!!
+                            // For some reason, the data that is all available to provider is passed to child components..
+                            // or that connect and provider are accessing the data from a single location.
+                            // Coming to the syntax and a little bit of semantics, what happens here is..
+                            // connect, takes in as input a function, that when called with whatever state data the connect has,
+                            // should return the state data in a format that is acceptable to the connecting components.
+                            // Actually connect just returns a function.
+                            // This function takes in as paramters, the components, that needs to be connected.
+                            // then this components, are enveloped in a HOC and all are passed the state data in the 'given' format.
+
+export default ConnectedExpensesList;
+
+One cool thing about this react-redux library is, whenever the stae changes, all the components in the 'Provider' component get
+ rerendered. No need to watch for state changes.
+
+const ExpensesList = (props) => (
+    <div>
+        <h1>Expenses List!!!!!!!</h1>
+        <ExpensesListItem expenses={getVisibleExpenses(props.expenses, props.filters)}/>
+                    //happily display.
+    </div>
+);
+
+Witness, how we set the text filter from a component.
+
+import { connect } from 'react-redux';
+import { setTextFilter } from '../actions/filterAction';
+
+const ExpensesListFilter = (props) => {
+    return (
+        <div>
+            <input type='text' value={props.filters.text} onChange={(e) => {
+                props.dispatch(setTextFilter(e.target.value)); // More on the dispatch function, below.
+                                                               // just know this that, dispatch function directly 
+                                                               // acts on store. It takes in action object as input
+                                                               // and passes on to the global store.
+            }}/>
+        </div>
+    );
+};
+
+const mapStateToProps = (state) => { 
+    return {
+        filters: state.filters
+    };
+};
+
+export default connect(mapStateToProps)(ExpensesListFilter); // Know that, connect not only retuns what is returned by mapStateToProps
+                                                             // but also an extra function dispatch.
+
+Now with that knowledge, see how we delete the expenses.
+
+import { connect } from 'react-redux';
+import { removeExpense} from '../actions/expenseAction'
+
+const ExpensesListItem = (props) => {
+    return (
+                <ul>
+                    {props.expenses.map((item) => {
+                        return (<li key={item.id}>
+                            <div>
+                                <h1>Description: {item.description}</h1>
+                                <h2>Amount: {item.amount}</h2>
+                                
+                                {console.log(props, 'hi there!')}
+                                <button 
+                                    onClick={()=> {
+                                        
+                                        props.dispatch(removeExpense(item.id))}}> // using the good old pal dispatch to act on store
+                                                                                  // to remove the expenses.
+                                 Remove</button>
+                            </div>
+                        </li>);
+                    })}
+                </ul>
+
+        ) ;   
+};
+
+export default connect()( ExpensesListItem); // see, how we are not passing any function to connect? Here we are just accessing the
+                                             // connect to dispatch actions to store. we are not making use of any data present in store
+                                             // Becasue it's coming in another way. so no need of a formatting function to connect.
+
+Expense form details:
+=====================
+
+export default class ExpenseForm extends React.Component{ // Class becuase you want to define good number of handlers in this
+                                                          // form.
+    constructor(props)
+    {
+        super(props);
+        
+
+        this.state = {      // We want to use expenses form, in both Add Expense and Edit expense.
+                            // Accordingky,ly, if we send an expense to this form, it will display it in the fields and behaves 
+                            // like an edit form. Else it will behave like an Add form.
+
+                description : props.expense ? props.expense.description : '',
+                note:  props.expense ? props.expense.note : '',
+                amount:  props.expense ? (props.expense.amount / 100).toString() : 0,
+                createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
+                buttonText: props.expense ? props.expense.buttonText : 'Add Expense',
+                calendarFocused: false,
+                error: false,
+                errorDescription: 'Please provide values for description and amount.'
+        };
+
+        // Event handlers binding to this. So that props gets available to them.
+
+        this.descriptionChange = this.descriptionChange.bind(this);
+        this.noteChange = this.noteChange.bind(this);
+        this.amountChange = this.amountChange.bind(this);
+        this.dateChange = this.dateChange.bind(this);
+        this.onFocusChange = this.onFocusChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    For each control in form, we add an event handler such that whenever, there is a char typed in or char  typed out, state is set to 
+    store it. Why .. ? u will get to know.
+
+    descriptionChange  (e)  {
+        const description = e.target.value;
+        this.setState(()=> ({ description}));
+    };
+
+    noteChange  (e)  {
+        const note = e.target.value;
+        this.setState(()=> ({ note}));
+    };
+
+    amountChange(e) {
+        const amount = e.target.value;
+        if(!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) { // regex match, either if you entirely deleted it 
+                                                              // the if allows. the if condition also allows, when there is a regex match.
+                                                              // the regex basically tells u that, there should be a minimum one digit
+                                                              // and should start with a digit. Optional is the part, hich comes after a 
+                                                              // decimal.
+            this.setState(() => ({amount}));
+        }
+    }
+
+    dateChange  (createdAt)  {
+        if(createdAt) this.setState(() => ({ createdAt}))
+    }
+
+    onFocusChange  ({focused})  {
+        this.setState(() => ({calendarFocused: focused}))
+    }
+
+    // Here, we send the object formed by input form. this function uses the onSubmit sent by invoking component
+    // and calls it with the input formed by this form.
+
+    onSubmit(e) {
+        e.preventDefault();
+        if(!this.state.description || !this.state.amount)
+        {
+            this.setState(() => ({error: true}));
+        }
+        else {
+            this.setState (() => ({error:false }));
+        }
+        this.props.onSubmit({
+            description: this.state.description,
+            amount: parseFloat(this.state.amount) * 100,
+            note: this.state.note,
+            createdAt: this.state.createdAt.valueOf()
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.error && <p>{this.state.errorDescription}</p>}
+                <form onSubmit={this.onSubmit}>
+                    <input type='text' placeholder='Description' 
+                        value={this.state.description} onChange={this.descriptionChange} autoFocus />
+                        
+                        // see the value is set to some value, by this, input becoems uneditable and only reflects the value
+                        // present in state, although onChange function, captures the input enetered. That's y every input has
+                        // a handler when the input changes. Because when the changed input should be set in state, only then 
+                        // that gets reflected i nthe textfield.
+
+                    <input type='text' placeholder='amount' 
+                        value={this.state.amount} onChange={this.amountChange} />
+                    
+                    //From 'react-dates'
+
+                    <SingleDatePicker 
+                        date={this.state.createdAt} 
+                        onDateChange={this.dateChange}
+                        focused={this.state.calendarFocused}
+                        onFocusChange={this.onFocusChange}
+                        numberOfMonths={1}
+                        isOutsideRange={()=> false}
+                    />
+                    <textarea placeholder='add a note to your expense! (optional)' 
+                        value={this.state.note} onChange={this.noteChange}></textarea>
+                    <button>{this.state.buttonText}</button>
+                </form>
+            </div>
+        );
+    }
+}
+
+ const AddExpensePage = (props) => (
+    <div>
+        <h1>This is expense add page!</h1>
+        <ExpenseForm                    // Invoking the expense form
+            onSubmit={ (expense) => {   // defining the onsubmit function to it.
+                                        // Dispatching a na action to store to add the expense
+                props.dispatch(addExpense(expense));
+                props.history.push('/'); // This doesnt do a full page refresh
+                                         // but instead does a programmatical page change
+                                         // it's gonna use browser routing.
+                                         // it's like  someone clicked a link.
+            } }
+        />
+    </div>
+);
+
+
+export default connect()(AddExpensePage); // Making store avialble to it.
+
+
+const EditExpensePage = (props) => {
+    console.log(props);
+    return (
+        <div>
+            <ExpenseForm onSubmit= { (expense) => {
+                
+                props.dispatch(editExpense(props.expense.id, expense)); 
+                props.history.push('/');
+            }} expense = {{...props.expense, buttonText: 'Edit'}} />
+            <button 
+                onClick={
+                        () => {
+                            props.dispatch(removeExpense(props.expense.id));
+                            props.history.push('/');
+                        }
+                }
+            >
+            Remove
+            </button>
+
+        </div>
+    );
+};
+
+const mapStateToProps = (state, props) => { // The beauty is that, the props sent by parent components ( here browser component)
+                                            // and the state, available to send is seperated as two params.
+                                            // ever wondered, how history is available above, all the props sent by parent components
+                                            // and the state by connect is all sent in a single object.
+
+    return {
+        expense: state.expenses.find( (expense) => expense.id === props.match.params.id) // match is the object taht has the url part.
+    };
+}
+
+export default connect(mapStateToProps)(EditExpensePage);
+
+
+export const ExpensesListItem = (props) => {
+    return (
+                <ul>
+                    {props.expenses.map((item) => {
+                        return (<li key={item.id}>
+                            <div>
+                                <h1>Description: {item.description}</h1>
+                                <h2>Amount: {item.amount}</h2>
+                                <h2>CreatedAt -- {item.createdAt}</h2>
+                                <Link to={`/edit/${item.id}` }>Edit</Link>
+                                
+                                // Dude, see the above link, how we beautifully concatenated an object proeprty and a string
+                                // variable in a single string inside the JSX expression. Remember it.
+                                
+                            </div>
+                        </li>);
+                    })}
+                </ul>
+
+        );    
+};
+
+Handling dates: - handling user input in general:
+=================================================
+
+class ExpensesListFilter extends React.Component {
+
+    constructor(props)
+    {
+        super(props);
+        console.log(props);
+        this.state = {
+            calendarFocused:null // We use this for Date component
+        }
+
+        this.onDatesChange = this.onDatesChange.bind(this);
+        this.onFocusChange = this.onFocusChange.bind(this);
+        
+    }
+
+    onDatesChange({startDate, endDate}) { // Called by DatePicker component, when we change the dates
+                                          // Here, we store in state the user input, as soon as the state changes, the components
+                                          // gets re-rendered.
+
+        this.props.dispatch(setStartDate(startDate));
+        this.props.dispatch(setEndDate(endDate));
+    };
+
+    onFocusChange(calendarFocused) {    // Not sure, when this is used
+                                        // but this does change the state.
+
+        this.setState(() => ({calendarFocused}));
+    }
+
+    render () {
+        return (
+            <div>
+                <input type='text' value={this.props.filters.text} onChange={(e) => {
+                    this.props.dispatch(setTextFilter(e.target.value)); // This way we handle every user input, changing the state,
+                                                                        // re-rendering the components.
+                }}/>
+                
+                <select onChange={
+                    (e) => {
+                        if(e.target.value === 'amount') this.props.dispatch(sortByAmount());
+                        else this.props.dispatch(sortByDate());
+                    }
+                }>            
+                    <option value="date">Date</option>
+                    <option value="amount">Amount</option>
+                </select>
+                <DateRangePicker 
+                    startDate={this.props.filters.startDate} // This is set from PRovider component's store.
+                                                             // And it is initially set to default state.
+                    endDate={this.props.filters.endDate}
+                    onDatesChange={this.onDatesChange}
+                    focusedInput={this.state.calendarFocused}
+                    onFocusChange={this.onFocusChange}
+                    numberOfMonths={1}
+                    showClearDates={true}
+                    isOutsideRange={() => false} // There is just no outside range, we can select any date. DAtepicker ususally
+                                                 // allows only dates from current date to future date, but doesn't allow past dates, hecne this function.
+                />
+                
+            </div>
+        );
+    }
+}
+
+@yarn 
+yarn add jest@20.0.4
+
+you know what once you add a script dependency like in scripts in package.json
+"test": "jest"
+
+you just got access to alias, 
+instead of typing yarn add test,
+you can simply type in yarn test.
+
+whoa why special prefrence only to test, becuase jest is the testing tool created by facebook ?
+or is it because yarn implicitly understands probably that test is a command to run test suite ?
+perhaps..
+
+now moving on..,
+
+we create a seperate folder in src, for tests.
+lets call it 'tests'
+
+every test case is placed in a file and this file has a special format - 
+for example like we wish to add a add test case file, then we name it as 'add.test.js'
+Jest recognises only this files that have this extension, 'test.js' and runs it.
+
+A sample test case as below:
+
+
+const add = (a,b) => a + b; // function to test.
+
+test('Adding two numbers', () => { // calling jest provided test function, nothing to import for this, 
+                                   // it takes in 2 params, one the test case name, another the function, which contains the test case
+                                   // now one, if the functions executes successfully without throwing any error, the  testcase is
+                                   // to pass the test. 
+    const result = add(5,6);
+    /*if(result !== 110) // we can maintain a lengthy format and description as below, or...
+    {
+        throw new Error(`Adding two numbers test case failed. Expected 11, result is ${result}`);
+    }*/
+    expect(result).toBe(110); // just call the hest provided expect function. :)
+
+})
+
+you pretty much want to add --watch flag to the jest.
+but dont add it in package.json
+
+but instead whenever you wish, like when developing you can set it up in the command line.
+now if you say yarn test --watch.. it doesn't work.
+
+The flag, gets taken by the yarn.
+
+so ypu can actually pass the flag to scrip by below way.
+
+yarn test -- --watch
+
+the first -- empty flag is taken by yarn
+and the second --watch flag gets passed down to the script
+
+toBe can be used only for simple value like structures like string, number etc.
+
+to compare an object, we got to use equals of 'expect'.
+
+Also, while creating the folder structure in tests, simulates as that of in parent src folder structure.
+
+test('Testing Add expense action generator', () => {
+    const addActionObj = {
+        description: 'Rent',
+        amount: 10500,
+        createdAt: 1000,
+        note: 'cool'
+    };
+    const addAction = addExpense(addActionObj);
+    expect(addAction).toEqual( // toEqual is used to compare objects.
+        {
+            type: 'ADD_EXPENSE',
+            expense: {
+                ...addActionObj,
+                id: expect.any(String) // since we donot know the ID value, since its dynamic. we are gonna ssume its type
+                                       // type can be assered by any function.
+            }            
+        });
+});
+
+Reducers are pure functions, I repeat again, without this beauty you would never be able to use 
+this jest testing framework this effectively. Or for that matter any framework perhaps ?
+
+import expenses from '../fixtures/expenses'; // storing the test data in /fixtures/ -- testers use this fixtures as representing some
+                                             // basic data.
+
+import { expensesReducer} from '../../reducers/expenseReducer'; // importing the reducer function to test 
+                                                                // see the beauty, u just get that component and test it.
+                                                                // no context is provided.
+import moment from 'moment';
+
+// Down below the @@init event is dispatched by redux store to set up the store.
+// we can use the same to test default values in store.
+// You can see this event in redux-dev tools.
+
+test('Expenses Reducer: Testing if reducer is setting up a default state for @@INIT event', () => {
+    const actObj = expensesReducer(undefined, {type: '@@INIT'});
+    expect(actObj).toEqual([]);
+});
+
+checkout the beauty in testing as below...
+
+test('Expenses Reducer: Testing valid expense remove in reducer', () => {
+    const actObj = expensesReducer(expenses, {
+        type: 'REMOVE_EXPENSE',
+        expenseId: expenses[2].id
+    });
+    expect(actObj).toEqual([expenses[0], expenses[1]]);
+});
+
+test('Expenses Reducer: Testing adding expense id remove in reducer', () => {
+    const expense = {
+        description: 'Jalsa',
+        amount: '10000',
+        note: 'hehe',
+        createdAt: moment(0).add(5, 'days').valueOf(),
+        id: 'abc126'
+    }
+    const actObj = expensesReducer(expenses, {
+        type: 'ADD_EXPENSE',
+        expense
+    });
+    expect(actObj).toEqual([...expenses, expense]);
+});
+
+test('Filter-Reducer: Testing sortBy Date filter in reducer', () => {
+    const sortActObj = filterReducer(
+                        {text: '', sortBy: 'amount', startDate: undefined, endDate: undefined}
+                        , {type: 'SORT_BY_DATE'});
+    expect(sortActObj.sortBy).toBe('date'); // simply just check what you want.
+});
+
+test('Filter-Reducer: Testing text filter in reducer', () => {
+    const actObj = filterReducer(undefined, {type: 'SET_TEXT_FILTER', filterText: 'bill'});
+    expect(actObj.text).toBe('bill'); // not only toEqual, get to know how to effectively use 'toBe'
+});
+
+Firt step towards, component testing.
+React-test-renderer @ version @yarn16.0.0 provides the utilities to test components.
+How can we test componetns, do we type out all the JSX that should be rendered ?
+naahh..
+even typing out that has some own difficulties
+for example, depending on the props that we pass, may be sometines the jsx rendered can drastically change.
+For this there are two type of testings 
+
+Shallow - offered by react-test-renderer.
+
+Shallow testing where JSX doesn't change much..
+
+
+import React from 'react';
+import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {Header} from '../../Components/Header';
+
+test('Header: should render correctly', () => {
+    const Renderer = new ReactShallowRenderer();
+    Renderer.render(<Header />); // At the first instance, test case just passes. it writes the snapshot of the jsx in the same
+                                 // destination as the test case resides. When we run again, it compares this jsx with the snapshot and
+                                 // lets us know about any differences.
+    expect(Renderer.getRenderOutput()).toMatchSnapshot(); // Checking with the snapshot or creating one if it doesn't exist.
+    
+});
+
+and another Enzyme by AIRBNB..
+@yarn add enzyme @3.0.0
+
+@yarn add enzyme-add-adapter-16 -- this one to say which version of react we are directly targeting.
+
+@yarn add raf@3.3.2 - request animation feature -> more about it later.
+
+what is so great about enzyme.. ?
+
+see the basic testing tools provided by react..
+
+import React from 'react';
+import ReactShallowRenderer from 'react-test-renderer/shallow'; // cool for shallow testing
+// do you know there is not much document ation about the above util, becuase other than the below 3 
+// calls, there is no other api to expose..
+//whereas enzyme is different..
+
+import {Header} from '../../Components/Header';
+
+test('Header: should render correctly', () => {
+    const Renderer = new ReactShallowRenderer(); // create an isntance of shallow renderer.
+    Renderer.render(<Header />); // get the html or whatever that JSX componet exposes.
+    expect(Renderer.getRenderOutput()).toMatchSnapshot();
+    // The abovce call basically creates a snapshot if one is not created or else matches the newly created snapshot 
+    // when this picee of code runs again, with the existing 
+    // one and checks if they both match.
+
+});
+
+A modified version of the same above in Enzyme..
+
+import React from 'react';
+import {shallow } from 'enzyme'; // getting again shallow from enzyme this time only powerful.
+//import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {Header} from '../../Components/Header';
+
+test('Header: should render correctly', () => {
+    const wrapper = shallow(<Header />); // getting a wrapper object around component which we want to test.
+                                         // this powerfully analyses and stores all the data nd metdata about it.
+                                         // offers a jquery like api.
+    expect(wrapper).toMatchSnapshot();  
+
+    // expect(wrapper.find('h1').text()).toBe('Expensify'); // dont get me started, even, this is what i am talking about..
+    // const Renderer = new ReactShallowRenderer();
+    // Renderer.render(<Header />);
+    // expect(Renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+A more cool updated one!
+
+import React from 'react';
+import {shallow } from 'enzyme';
+//import toJSON from 'enzyme-to-json'; // why do we need this at all, although we commented it,
+                                       // we are still using it, we just mentioned that this to be definitely used
+                                       // via jest config file.
+                                       // The thing about why we use it is, becuase enzyme saves the snapshot in the 
+                                       // wrapper object model, there is ton of metadata that is stored along in the snapshot.
+                                       // so even if one of the internal changes, toMatchSnapshot(), which does a strict string 
+                                       // comparision fails, hence, what we do is we, via this toJSON filter, extract only the required
+                                       // jsx or just the jsz which developer wrote..
+//import ReactShallowRenderer from 'react-test-renderer/shallow';
+import {Header} from '../../Components/Header';
+
+test('Header: should render correctly', () => {
+    const wrapper = shallow(<Header />);
+    expect(wrapper).toMatchSnapshot(); // after setting up serializer config in jest.config.json
+    //expect(toJSON(wrapper)).toMatchSnapshot();
+    //expect(wrapper).toMatchSnapshot();
+
+    // expect(wrapper.find('h1').text()).toBe('Expensify');
+    // const Renderer = new ReactShallowRenderer();
+    // Renderer.render(<Header />);
+    // expect(Renderer.getRenderOutput()).toMatchSnapshot();
+});
+
+Testing components that require props:
+======================================
+
+import React from 'react';
+import {shallow} from 'enzyme';
+import expenses from '../fixtures/expenses'; // All the regular masala, importing test data.
+import { ExpensesList } from '../../Components/ExpensesList'; // gEtting the required component to test.
+
+test('ExpensesList component: Testing expenses list with some expenses', () => {
+    const wrapper = shallow(<ExpensesList expenses={expenses} filters={{text: '', sortBy:'date'}} />); 
+    expect(wrapper).toMatchSnapshot();
+    //The beauty about the above line is the snapshot is created every time the prosp is changed or a snaphsot was not yet
+    //created for the same. That way, when same props is sent, the display should nto chaneg and the jest manages to test it.
+});
+
+
+test('ExpensesList component: Testing expenses list with some expenses', () => {
+    const wrapper = shallow(<ExpensesList expenses={[]} filters={{text: '', sortBy:'date'}} />);
+    expect(wrapper).toMatchSnapshot();
+});
+
+import React from 'react';
+import {connect } from 'react-redux';
+import {ExpensesListItem} from './ExpensesListItem';
+import {getVisibleExpenses} from '../selectors/expenseSelector';
+
+
+// Well for the above beauty to happen, one thing that we need to take care is exporting the componetn against
+// default export below becuase, you need not require a wrapped component with state.
+export const ExpensesList = (props) => (
+    <div>
+        {
+            props.expenses.count === 0 ? (
+                <p>No expenses!</p>
+            ) : (
+                <ExpensesListItem expenses={getVisibleExpenses(props.expenses, props.filters)} />
+            ) 
+        }     
+    
+    </div>
+);
+
+const mapStateToProps = (state) => {
+    return {
+         expenses: state.expenses,
+         filters: state.filters
+        };
+};
+
+const ConnectedExpensesList = connect(mapStateToProps)(ExpensesList);
+
+export default ConnectedExpensesList;
+
+Mocking libraries with Jest:
+============================
+
+
+If you test the default expense form page, your test cases never pass. :O
+
+in Expense form, lets take a look at the state object it uses.
+this.state = {
+                description : props.expense ? props.expense.description : '',
+                note:  props.expense ? props.expense.note : '',
+                amount:  props.expense ? (props.expense.amount / 100).toString() : 0,
+                createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
+                //The above line when invoked always passes a different to state, so snaphot jsx never 
+                //matches this particular line.
+                //This is where mocking helps. Becuase for testing purpose, we cant change the code here.
+                //So when we invoke from the testing module, the moment should be overrided to always return a default test value.
+
+                buttonText: props.expense ? props.expense.buttonText : 'Add Expense',
+                calendarFocused: false,
+                error: false,
+                errorDescription: 'Please provide values for description and amount.'
+        };
+
+Jest does provide support for mocking, just create a '__mocks__' folder under tests. If any .js file here matches any npm
+module or custime defined js file being imported in the invoked component by jest, it simply replaces that original import
+with .js code present in this __mocks__ folder.
+
+put the below code in moment.js and save it __mocks__ folder.
+
+const moment = require.requireActual('moment');
+
+export default (timestamp = 0) => {
+    return moment(timestamp);
+}
+
+and now everything passes :)
+
+Testing user interaction:
+=========================
+
+What is user interaction -- submitting form, clicking a button, scrolling .... all come under user interaction.
+
+We test user interaction by simulating a button click or form submit pragmatically and checking for jsx changes.
+Reacting to user input, some jsx might get updated, we check if the expected jsx changes happen by simulating all possible user
+interactions.
+
+test('Expense form component: for user input - form submit', () => {
+    const wrapper = shallow(<ExpenseForm />); // Rendering the form.
+    wrapper.find('form').simulate('submit', { // Simulating the user interaction. Here we find the required html input control and
+        preventDefault: () => {}              // simulate the action that user might perform. we can optionally send the data to
+    });                                       // the event handler that gets passed if the same acion is done by user.
+    expect(wrapper.state('errorDescription').length).toBeGreaterThan(0);
+    // above expression is the expected jsx change that we think would happen for the corresponding user interaction.
+    // If we observe the above statement, we are not checking jsx but the state although.  
+});
+
+// By placing the multiple matchsnapshot calls, we can check for the jsx formed at each stage.
+// At first call and for the second call, two different jsx's might have been generated. These both snapshots are saved for this
+// testcase below and whenever this is executed, both matchsnapshots are compared for corresponding calls.
+// This effect in pur functional perspective is like, first jsx is before we do some action.
+// Second jsx is after an action is submitted. Thus way we can check the jsx changes in response to an user input.
+
+test('Expense form component: for user input - form submit', () => {
+    const wrapper = shallow(<ExpenseForm />);
+    expect(wrapper).toMatchSnapshot(); 
+    wrapper.find('form').simulate('submit', {
+        preventDefault: () => {}
+    }); 
+    expect(wrapper.state('error')).toBeTruthy();
+    expect(wrapper).toMatchSnapshot();
+});
+
+
+
+test('Expense form submit: for user input - description field change', () => {
+    const wrapper = shallow(<ExpenseForm />);
+    const value = 'An ultra cool expense!';
+    wrapper.find('input').at(0).simulate('change', { // see the jquery stle of api provided by shallow renderer.
+        target: {                                    // Her in the above statement, 'at' is a function that returns the
+            value                                    // specific object out of multiple objects for the query.
+        }                                            // if there is just one object present, with that control, we can access
+    });                                              // properties directly on them without usage of 'at'
+    expect(wrapper.state('description')).toBe(value);
+});
+
+Another great feature provided by enzyme is, to write beautiful and 'as-much-as-possible' thorough testcases, is the test
+spies.
+
+Test function spies are something that record information as how many times it is called, with what parameters it is called, etc.
+
+How are we gonna use it ?
+This is very handy in testing the object sent to onSubmit function for 'submit' action.
+
+test('Expense form component: expense object submitted is correctly being passed to onSubmit function', () => {
+    const onSubmitSpy = jest.fn(); // Creating a test spy.
+    const wrapper = shallow(<ExpenseForm expense={expenses[0]} onSubmit={onSubmitSpy}/>);
+                    // Here we are passing the onSubmitspy function to expense form created.
+    wrapper.find('form').simulate('submit', {
+        preventDefault: () => {}
+    });
+    // simulating the action above.
+    expect(onSubmitSpy).toHaveBeenLastCalledWith({
+        description: expenses[0].description,
+        note: expenses[0].note,
+        amount: expenses[0].amount,
+        createdAt: expenses[0].createdAt
+    });
+    // Asking for the spy ;) to tell about the parameters it is called with, and thus way checking if object is correctly 
+    // being passed.
+});
+
+// Testing the thrid party components, a bit tricky.
+// Enzyme lets you access the props of each component in the below way. Whether it is a function or an object. or whatever.
+
+test('Expense form component: should set new date via date time picker', () => {
+    const now = moment();
+    const wrapper = shallow(<ExpenseForm />);
+    wrapper.find('SingleDatePicker').prop('onDateChange')(now);
+    //we will get our date change function defined.
+    expect(wrapper.state('createdAt')).toBe(now);
+});
+
+test('Expense form component: should set calendar focused', () => {
+    const focused =true;
+    const wrapper = shallow(<ExpenseForm />);
+    wrapper.find('SingleDatePicker').prop('onFocusChange')({focused});
+    expect(wrapper.state('calendarFocused')).toBeTruthy();
+});
+
+// Some more testing using function spies
+
+Here is the Add expense component page, in functional-component form.
+
+ const AddExpensePage = (props) => (
+    <div>
+        <h1>This is expense add page!</h1>
+        <ExpenseForm 
+            onSubmit={ (expense) => {
+                props.dispatch(addExpense(expense));
+                props.history.push('/'); // This doesnt do a full page refresh
+                                         // but instead does a programmatical page change
+                                         // it's gonna use browser routing.
+                                         // it's like  someone clicked a link.
+            } }
+        />
+    </div>
+);
+
+converting into class component to test it more freely. Why and how ?
+
+
+export class AddExpensePage extends React.Component {
+    constructor(props) // The regular initialisation of class component with props while initialisation.
+    {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this); // Declraring all functions again in the context of component initialised env.
+    }
+    onSubmit(expense)  {
+        console.log('expense logging', expense);
+        this.props.onSubmit(expense); // encapsulating out the dispatch action inside another function for using testig spies.
+        this.props.history.push('/');
+    };
+
+    render () {
+        return (
+            <div>
+                <h1>This is expense add page!</h1>
+                <ExpenseForm 
+                    onSubmit={ this.onSubmit }
+                />
+            </div>
+        );
+    }
+}
+
+
+not only the state but the dispatch parameter form can be altered while sending it to addExpensePage.
+And yes, connect aaccepts another function as second parameter to alter the form of dispatch.
+By default the altered boject that is being returnd also has access to history object.
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubmit: (expense) =>  dispatch(addExpense(expense))
+    }
+}
+
+export default connect(undefined, mapDispatchToProps)(AddExpensePage);
+
+Now in the functional component, the dispatch used to handle an altered form of expense, 
+that is the return value of expense.
+now, we just have to deal with original expense data.
+writing a test spy or test case for an api is just easy.
+
+A testcase: just testing the normal render
+test('Add Expense Page component: testing a normal render', () => {
+    const onSubmit = jest.fn();
+    const history = { push: jest.fn() }
+    const wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history}/>);
+    expect(wrapper).toMatchSnapshot();
+});
+
+test('Add Expense Page component: testing the add expense-s submit expense', () => {
+    const onSubmit = jest.fn();
+    const history = { push: jest.fn()};
+    const wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history} />);
+    wrapper.find('ExpenseForm').prop('onSubmit')(expenses[1]);
+    //Always remember how to invoke the props.
+    expect(onSubmit).toHaveBeenLastCalledWith(expenses[1]);
+    //The simplicity of testing  above.
+    expect(history.push).toHaveBeenLastCalledWith('/');
+});
+
+see how you declare onsubmit, history and wrapper for addExpense page again and again in each testcase.
+Jest provides some utilities to encourgae resuabuility in test writing.
+
+afterAll, beforeAll, afterEach, beforeEach - these are all function provided by jest to simplify writing testcases and logically 
+re-organisation.
+
+now the tescases look like below:
+
+beforeEach( ()=> {
+    onSubmit = jest.fn();
+    history = { push: jest.fn() }
+    wrapper = shallow(<AddExpensePage onSubmit={onSubmit} history={history}/>);
+});
+
+test('Add Expense Page component: testing a normal render', () => {    
+    expect(wrapper).toMatchSnapshot();
+});
+
+test('Add Expense Page component: testing the add expense-s submit expense', () => {
+    wrapper.find('ExpenseForm').prop('onSubmit')(expenses[1]);
+    expect(onSubmit).toHaveBeenLastCalledWith(expenses[1]);
+    expect(history.push).toHaveBeenLastCalledWith('/');
+});
+
+
+SSH Commands :
+==============
+
+run the following commadn to get to know if SSH exists -- 
+ls -a ~/.ssh
+
+if u dont get any foldernames related to crypto keys, then you dont have one.
+
+run the follwing commadn to generate a ssh
+ssh-keygen -t rsa -b 4096 -C "durgaprasadmurikipudi@gmail.com"
+
+ssh-keygen (command) -t (type) rsa (famous rsa key type) -b (bits size to use) 4096 (most recommended bit size)
+-C (comment) "durgaprasadmurikipudi@gmail.com" (just provide your email as comment).
+
+now to communciate we need ssh-agent
+check if its running by follwing command
+eval "$(ssh-agent -s)"
+
+Now add your identity, there are basically 2 folders now id_rsa and id_rsa.pub
+now, id_rsa.pub is like public folder and you can share it with any service for ssh communictaion.
+Now dont share the other folder lest they steal ur identity
+run the follwing command to add your identity.
+ssh-add ~/.ssh/id_rsa
+
+Copy the SSH key to your clipboard.
+
+If your SSH key file has a different name than the example code, modify the filename to match your current setup.
+ When copying your key, don't add any newlines or whitespace.
+
+sudo apt-get install xclip
+# Downloads and installs xclip. If you don't have `apt-get`, you might need to use another installer (like `yum`)
+xclip -sel clip < ~/.ssh/id_rsa.pub
+# Copies the contents of the id_rsa.pub file to your clipboard
+Tip: If xclip isn't working, you can locate the hidden .ssh folder, open the file in your favorite text editor,
+ and copy it to your clipboard.
+
+Settings icon in the user barIn the upper-right corner of any page, click your profile photo, then click Settings.
+
+Authentication keysIn the user settings sidebar, click SSH and GPG keys.
+
+SSH Key buttonClick New SSH key or Add SSH key.
+
+In the "Title" field, add a descriptive label for the new key. For example, if you're using a personal Mac, 
+you might call this key "Personal MacBook Air".
+The key fieldPaste your key into the "Key" field.
+Click Add SSH key.
+If prompted, confirm your GitHub password.
+
+then to use it first tiem whil communicating with github, run the follwing command.
+ssh -T git@github.com
+
+Optimise webpack build..
+========================
+
+why ?
+
+see the terminal output below
+
+$ yarn run buildit
+
+yarn run v1.7.0
+$ webpack
+Hash: 913b83aff0f0380b78dd
+Version: webpack 3.1.0
+Time: 7306ms
+    Asset     Size  Chunks                    Chunk Names
+bundle.js  7.55 MB       0  [emitted]  [big]  main <----------************ see this about 7.55 MB of JS :O, of which majority part is source maps.
+  [67] ./src/actions/expenseAction.js 1.55 kB {0} [built]
+  [94] ./src/selectors/expenseSelector.js 1.5 kB {0} [built]
+ [214] ./src/actions/filterAction.js 1.13 kB {0} [built]
+ [404] ./src/app.js 1.71 kB {0} [built]
+ [443] ./src/Router/AppRouter.js 1.92 kB {0} [built]
+ [468] ./src/Components/Header.js 1.21 kB {0} [built]
+ [469] ./src/Components/ExpenseDashboardPage.js 892 bytes {0} [built]
+ [541] ./src/Components/AddExpensePage.js 3.54 kB {0} [built]
+ [545] ./src/Components/EditExpensePage.js 4.65 kB {0} [built]
+ [546] ./src/Components/HelpPage.js 454 bytes {0} [built]
+ [548] ./src/store/configureStore.js 543 bytes {0} [built]
+ [549] ./src/reducers/expenseReducer.js 1.46 kB {0} [built]
+ [550] ./src/reducers/filterReducer.js 1.52 kB {0} [built]
+ [554] ./src/styles/styles.scss 1.15 kB {0} [built]
+ [555] ./node_modules/css-loader!./node_modules/sass-loader/lib/loader.js!./src/styles/styles.scss 394 bytes {0} [built]
+    + 543 hidden modules
+Done in 10.16s.
+
+To make this optimisation possible, we might make some of the javascript modules come as seperate part out of bundle.js
+which can optionally load when necessary.
+
+For this we are gonna run webpack in production mode like 
+webpack -p
+This '-p' flag tells all the other libraries that currently the code should prepare itself for production mode and load the
+most basic bare versions possible.
+
+For example react loads some other dev util components that facilitate debugging, with this -p flag enabled it removes all that stuff.
+
+Also, node.env variable is set to value 'production', here.
+
+We cant access what node.env is set to in webpack.config.js
+
+now why is this necessary ?
+because currently as it stands running webpack in prod mode with -p flag set,
+shaves about 10% of current size ?
+no we want nore, for this we need to remove much more code in webpack's genrated bundle.
+
+And to remove this code, we need to load that webpack.config.js which have this code removal settings 
+for production.
+
+So far we are returning an object in webpack.config.js. But do u know we can instead export a function, which has parameters.
+Now current webpack.config.js will look like
+module.exports = (env) => {
+    return {} // return the old config.
+}
+
+now to pass this value env, we have to invoke the command webpack by custom user flags
+
+webpack -p --env production
+
+define a constant isProd = 'env' === 'production'
+
+also, we are setting the property devtool like below,
+devtool: isProd ? 'source-map' : 'cheap-module-eval-source-map',
+
+according to webpack.js.org source-map is an external file and that takes a long time to build.
+
+now if we run webpack in prod mod again, then we get two files generated.
+bundle.js - 900 kb, (sweet) which actually contaisn the source code of our app in minfied version.
+and another bundle.js.map - 5.06 map which will get loaded obnly when someone opens dev tools in browser :)
+cool aint it ? :)
+
+aslo make sure to check if our app is running with this minfied code is working by running below command:
+npm run serve.
+Awesome, its working. Tested OK. 
+:):):)
+
+now to check if the bundle.js.map is being loaded, add an console.log statement in app.js
+open dev tools abd see the line number pointed by console.log statement, if its some app.js:14 <line number>
+then source map is indeed correctly being loaded, else, if its some bundle.js:14586, then errhhmmm its an error :P
+
+creating seperate css files
+===========================
+
+so far we are importing .css files in app.js and the webpack combines it along with our react-javascript into bundle.js file.
+what it means taht our css will not be loaded until javascript loads.
+So we are not gonna change imports, but what we are gonna do is instead ask webpack to spit out css file seperately.
+
+For this we are gonna use extract-text-wbpack-plugin
+@yarn
+yarn add extract-text-webpack-plugin@3.0.0
+
+see the configuration set up in css file
+
+Also in webpack so far, we have used cheap-source eval map
+and it doesnt work well with css files
+so we are gonna use inline-source-map
+
+lets create a small express server  to server our files so that later we can move to Heroku
+
+:
+
+const path = require('path');
+const express = require('express');
+const app = express();
+const publicPath = path.join(__dirname, '..', 'Public');
+const port = process.env.PORT || 8096 // This is set by Heroku
+
+app.use(express.static(publicPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+app.listen(port, () => {
+    console.log('App is running on port: ' + port);
+});
+
+Ignore bundle .js and css files in .git Ignore
+ why ?
+ All the deployment is done in Heroku app via command line.
+
+ so when we say type after installation of heroku cli,
+ the command 'heroku create ExpensifyApp'
+ it gives  us a git link to commit.
+ If we commit to those repositories, all will be transfrred to heroku server.
+
+ we are gonna add "start" proeprty in package.json, which has command "node server/servre.js"
+ also once all the files are moved to heroku we are gonna run the build.
+ For the same "heroku-postBuild" property will be added. IT has command "yarn run build-prod".
+
+ Also, by running command like below 
+ yarn add somemodule@x.x.x. --dev, the package is installed as dev only dependency 
+ and wont be installed when yarn runs in heroku
+ heroku runs yarn as
+ yarn install --production
+
+for webpack dev server, we can mention proeprty, 'publicPath', to instruct to serve assets like js
+and css from the folder mentioned in the prpeties value
+also output apth in webpack should also be changed
+
+Firebase:
+firebase.database()
+
+This will return the reference to the things that we can do on firebase database.
+
+firebase.database().ref().set( { name: 'durga'});
+ref () function gets reference to the root object in the firebase database
+The above function basically sets an object with property name.
+
+now if we call firebase.database.ref().set( {age: 26});
+entire thing gets wiped out on the root and only   age variable gets set in the root object.
+
+Lets say a firebase call has been made like this
+firebase.database().ref().set({
+        name: 'durga',
+        age: 26
+    }
+)
+
+now if we want to set a new attribute personality to above root object.. how are gonna do it.
+below is the syntax.
+
+firebase.database().ref('personality').set ( {
+    height: 162, weight: 69
+});
+even though the location property is not present in root object, it will be created and set to value
+that is passed from the set function.
+
+Now if u wanna change weight to 71,
+you can use below syntax:
+
+firebase.database().ref('personality/weight').set(71);
+
+and that's it. :)
+
+And also every firebase call to manipulate a root object is asynchronous.
+
+so if theer are 2 firebase calls made immediately afterline after line, they are gonna act asynchronously.
+
+Promises:
+=========
+
+const promise = new Promsie( (resolve,reject) => {
+    /// ...
+    ....
+    ///
+
+    if(all-cool) resolve({ ...somedata });
+    else reject({... some error data});
+});
+
+The basic promise architecture as above. the promsie constructor calls a function wit h 2 aprams, resovle and reject.
+Resolve is called when all isthe cool with some data.
+Reject is called whene there is erro r and with some erro data.
+ The constructor basically returns a promise object.
+
+ The promise object is basically in either resovled or rejected or pedning state.
+ Once resolved, its resolved and once rejected its done and dusted, nothingm ore could be done on that promise object once it
+ moves to resolved or rejected state from pending.
+
+
+promise.then( (data) => {
+    console.log(data);
+})
+
+'Then' on a promise object registers a call back to be invoked when promsie moves to resolved object.
+this then function also basically returns the same instance of promise object that is being run on
+we can also register a call back to be run when promise moves to rejected state.
+
+promise.then( (data) => { ...}).catch ((error) => { ...});
+ you can also register the call back for register i nthe following manner..
+ promise.then( (data)=> {...statements to be run when resolved... } , (error) => { ...statements to be run when promise is rejected.});
+
+ Promises with Firebase..
+
+ just call then on 'set' ;)
+
+ Removing in firebase
+
+ firebase.ref('attributes').remove(); // removes attributes proeprty.
+ also
+ firebase.ref('attributes').set(null); // will do the same as above.
+
+ Updating in firebase:
+ As you know, set does update too, but what if you want to update multiple properties at the root level ? update then comes handy.
+
+ firebase.database().ref().update( { name: 'MDP', isSingle: true, job: { company: 'Amazon', title:' 'Software Developer'},
+  attributes: null});
+
+ as you can see  it can update existing property as was done with 'name'.
+ it can create a new proeprty as was done with isSingle,
+ can delete a property as was done with attributes.
+
+ to update a nested proeprty there is different syntax
+ suppose if you want to update the company to 'Google', then
+ syntax is as follows:
+
+ firebase.database().ref().update( { 'job/company': 'Google' });
+
+ REading data from firebase:
+ ===========================
+
+ database.ref() // getting a reference to the root database
+    .once('value') // once takes in the input of the event type and does that activity. Here we are requesting the once to trigger
+                   // the event to get all the present.
+    .then( (snapshot) => {
+        const value = snapshot.val();
+        console.log(value);
+    })
+    .catch( (e) => {
+        console.log('Error fetching data', e);
+    });
+
+subscribing for the updates:
+database.ref().on('value', (snapshot) => { console.log(snapshot.val())} ) // on registers a callback for the event, 
+here value event, any change for the value is an event and that triggers a call back.
+
+databse.ref().off(); // to switch of all subscriptions.
+
+we can selectively switch off a subscription by just passing on the same call back passed to onback function.
+
+Or the same call back also comes as areturn value from 'on'. we can store it and use the same to witch it off.
+
+Also, on takes in another call back fucntion to notify of any errors that happened while setting up the subscription.
+
+Firebase doesn't support arrays:
+
+so suppose if you do the below :
+
+databse.ref('notes').set ( [ { id: 12, text: 'hghdfsgd'}, { id: 13, text: 'gdfgdghtg' }])
+it's gonna store as notes : {
+        0 : {
+            id: 12,
+            text: 'aefsdfsdf'
+        },
+        1 : {
+            id: 12,
+            text: 'gsfgsdg'
+        }
+}
+
+so its gonna store arrays as an object with indices as key.
+
+Also, there is a linked lsit concept, 
+for ex: database.ref('notes').push( { id: 12, text: 'fdfd'}), 
+then it is gonna store a object for notes with automatic generated key [ a random alphacharacter sequence].
+you can push as many items as you wish.
+
+
+firebase.database().ref().set(null); // set teh database to null.
+
+firebase.database().ref('notes').push( { // happily push all three elements, you are all set data is persisted.
+  amount: 500,
+  createdAt: 15555555555,
+  description: 'yohoo1',
+  notes: ''
+})
+
+firebase.database().ref('notes').push( {
+  amount: 2500,
+  createdAt: 15555555555,
+  description: 'yohoo2',
+  notes: ''
+})
+
+firebase.database().ref('notes').push( {
+  amount: 1500,
+  createdAt: 15555555555,
+  description: 'yohoo3',
+  notes: ''
+})
+
+// print the data as below, dont forget that you dont get the data as it is. you got to call the val on it.
+
+firebase.database().ref('notes').once('value').then( (snapshot) => { console.log(snapshot.val())}).catch( (e) => { console.log('exception', e)});
+
+Happy life aint it ?
+how are we gonna retrieve expenses and manipulate it ?
+
+see the below thing ..
+
+database.ref('expense').on('value', (snapshot) => {
+    const expenses = [];
+    snapshot.foreach( (childSnapshot) => { // iterating via keys from root level node
+        expenses.push( {
+            id: childSnapshot.key, // assigning the key
+            ...childSnapshot.val() // destructuring all the properties  of value , in essence the expense object in detail.
+        });
+    });
+});
+
+
+@yarn
+yarn add redux-thunk@2.2.0
+
+Generally redux returns state, 
+now to make the redux and its set up linked action generators and reducer functions to work such that they do both post the data
+to firebase and chnage its own state, we are gonna take the help of redux-thunk. 
+basically it allows to return functions rather than objects from reducer.
+
+Asynchronous Redux actions:
+===========================
+
+ACtually to do the basic crud operations on firebase, we might want to put our code first in AddExpense to create the data in firebase
+and later dispatch an action of same to the redux store. This is ok, but do we really want our components to know,
+which database we are really communicating? I guess no.. ? Instead we are gonna put them in actions.
+
+Generally our flow in project is like 
+1. Components calls action generators.
+2. Action generators returns object.
+3. Component dispatches object.
+4. redux store changes.
+
+But now, the flow would look like this ..
+1. Components calls action generator
+2. action generator returns function.
+3. Component dispatches function (?) 
+4. Function runs.
+
+When the function runs, it has the ability to dispatch other actions and basically do whatever it wants.
+
+Basically action genrator doesn't return a function, thats where the redux-think comes in.
+
+First, a little modification to our store.
+
+import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+//applyMiddleware is imported so that we can use redux-thunk middleWare. Compose function to get a combied behaviour of functions.
+import {expensesReducer} from '../reducers/expenseReducer';
+import {filterReducer} from '../reducers/filterReducer';
+import thunk from 'redux-thunk';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+above, Either it has windows _redux devtools extenson or it will use a default compose
+
+export default () => {
+    const store = createStore(
+        combineReducers({
+            expenses: expensesReducer,
+            filters: filterReducer
+        }),
+        composeEnhancers(applyMiddleware(thunk)) // Second paramter - apply middle ware.
+        //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        //The above middleware is being commented.
+    );
+    return store;
+}
+
+Also, we are gonna export firebase and database from firebase.js
+
+Now lets define the function that gets dispatched. Where are we gonna define it, if not in the add Component? 
+Perhaps in the action generatos ? Yep, right.
+
+Add expense action generator is modified as follows:
+
+//ADD_EXPENSE
+
+export  const addExpense = ( expense ) => ({ // In-before addExpense had defaults, now it just delivers as payload, whatever it recieves.
+    type: 'ADD_EXPENSE',
+    expense
+});
+
+// ADD_EXPENSE_GENERATOR
+
+export const startAddExpense = (expenseData = {}) => { // creating a function that retruns an action generator function.
+    return (dispatch) => { // Returning the action generator function, it would be internally called by redux with dispatch function.
+        const { 
+            description = '',
+            amount = 0,
+            createdAt = 0,
+            note = ''
+        } = expenseData; //Whatever the data  the function is called with, is destructured into variables.
+        const expense = { description, amount, createdAt, note}; //Then structured to form an object.
+        database.ref('expenses').push(expense).then ( ( refExpense) => { // Happily storing into firebase, then on success callback, 
+                                        // we dispatch the action. We also recieve the object that got pushed as a reference.
+            dispatch(addExpense({
+                id: refExpense.key, // Already while pushing into the firebase, a key is created and same is gonna be sent to redux-store.
+                ...ref.expense // rest all teh data to store also.
+            }));
+        });
+
+    };
+};
+
+There we go, we successfully developed an action generator function.
+Now we also will change the references from addExpense to startAddExpense.
+
+After fixing the failed testcases (and that should be easy-peasy) as we have changed the add action-generator a bit,
+we are gonna test new async action genrator start-add-expense.
+
+We care about 2 things 1. (storing the default data to store or  storing the expense data to store)
+2. And storing the whatever data, default or expense data to firebase.
+
+we are gonna throw a mock store to test what actions were dispatched to the store.
+
+@yarn
+yarn add redux-mock-store@1.2.3
+
+this mock-store lists us all the actions dispatched to it.
+
+import configureMockStore from 'redux-mock-store';
+
+we can create a mock-up store by
+const createMockStore = configureMockStore([thunk]);
+
+So many things to talk about while setting up a test case for async action generator
+
+test('Testing Async add expense generator', (done) => {
+    //  Done is a function, to be called, signalling that testcase has run completely. 
+    // Since firebase calls are async functions we have o wait tilll it completes and returns, else jest will simply fire 
+    // up and trigger the async functions and returns without knowing their result. To sop that, we have to use a overloaded
+    // function of test.
+    const store = createMockStore({}); // creating a mock up store
+    const expenseData = {
+        description : 'Asdf',
+        amount : 525,
+        note : 'default note...',
+        createdAt: 2
+    };
+    
+    store.dispatch(startAddExpense(expenseData)).then( () => { // This also an async function, although a promise.
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'ADD_EXPENSE',
+            expense: {
+                ...expenseData,
+                id: expect.any(String),
+            }
+        });     
+        
+        return database.ref(`expenses/${actions[0].expense.id}`).once('value'); // Returning the promise for chaining
+    }).then( (snapshot) => { // and well chaining up!!
+        expect(snapshot.val()).toEqual(expenseData);
+        done();       // Calling the done to signal jest that test case has run successfully.  
+    });
+});
+
+Creating a seperate test database:
+=================================
+
+We are gonna set up 3 different envorinments  -- dev, test, production
+
+fo this we are gonna use, NODE_ENV variable. It actually is created by Heroku, we are gonna use the same.
+we are gonna install dev only dependency cross-env@5.0.5 to set teh envirnment variable using the same syntax in different os'es
+
+we are gonna add that to run scripts in package.json
+
+for example for test build and run we are gonna set for the test-startup script as below:
+
+test: "cross-env NODE_ENV='test' jest --config=jest.config.json"
+
+so when we are gonna invoke the environment variable node_env is set to test.
+
+First of all we are gonna create test firebase database.
+we are gonna copy all the web config into .env.testing file
+
+we are gonna also import a dev only package dotenv@4.0.0 to read the this .env fileswhose contents are all in the form key=value
+
+we are gonna write all the config values provied by firebase in the key value form so that dotenv package reads it.
+
+Then in webapack we are gonna read it via dotenv
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+if(process.env.NODE_ENV === 'testing')
+{
+  require('dotenv').config({path: '.env.testing'}); // this statement sets the variables read from process.env
+                                                    // config files
+}
+else if(process.env.NODE_ENV === 'development')
+{
+  require('dotenv').config({path: '.env.development'})
+}
+
+you also import webpack at teh beginning of webpack file by the follwing statement.
+const webpack = require('webpack');
+
+Then in plugins property of webpack you keep this statement.
+plugins : [
+        cssExtract,
+        new webpack.DefinePlugin({
+          'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+          'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_ATUH_DOMAIN),
+          'process.env.FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+          'process.env.FIREBASE_PROJECT_ID': JSON.stringify(provess.env.FIREBASE_PROJECT_ID),
+          'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+          'process.env.FIREBASE_MESSAGE_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGE_SENDER_ID)
+        })
+      ],
+
+      you can also set the statements in the follwing way:
+      'process.env.FIREBASE_API_KEY': ""#some-api-key""
+      but json.stringify does that for you. because webpack does a direct string replacement, this is wanted.
+
+      Also create a file setupTests.js and paste this line:
+       require('dotenv').config({path: '.env.testing'}) 
+       this will set all the process env variables in process.env
+       what ahppens in webpack.js is that process.env is read and are defined as global variables
+       with the same name process.env.FIREBASE_API_KEY etc.
+
+    Setting up the production config
+
+    we can set up a production config by the following command:
+    $heroku config:set key=value key1=value1
+    now these are available in process.env.key and process.env.key1
+
+    to view the heroku config values we can run the follwing command:
+
+    $heroku config
+
+    now we arre gonn set all the config FIREBASE_API_KEY nad all other
+    we are gonna place the files .env.dev and .env.testing in .gitignore and we are all set to go.
+
+    we successfully have hidden all the configs :)
+
+Fetching data from firebase and synchronising it to redux state:
+----------------------------------------------------------------
+First by default we get all the expenses from firebase and set it store.
+
+creating a new simple action 'SET_EXPENSEs', we also handle this in reducer function.
+In reducer we just return as new state whatever expenses we recieve from set_action type.
+
+//SET_EXPENSE
+
+export const setExpenses = (expenses) => ({
+    type: 'SET_EXPENSES',
+    expenses
+});
+
+// SET_EXPENSE GENERATOR
+
+export const setStartExpense = () => {
+    return (dispatch) => { // this action returns a function, whenc called gets all the expenses from firebase
+                           // also dispatcehs set_expense action with the expenses fetched!.
+        const expenses = [];
+        let expense;
+        return database.ref('expenses').once('value').then( (snapshot) => { // we are returning the promise returned from 
+                                                                            // firebase's `then` .
+            snapshot.forEach( childSnapshot => {
+                expense = {id: childSnapshot.key, ...childSnapshot.val()};
+                expenses.push(expense);
+            });
+            dispatch(setExpenses(expenses));
+        });
+    }
+}
+have a look at how we edit the expesnes using redux-thunk
+
+//EDIT_EXPENSE_GENERATOR
+
+export const startEditExpense = (id, expenseUpdates) => {
+    return (dispatch) => {        
+        return database.ref(`expenses/${id}`).set({...expenseUpdates}).then ( ()=> {
+            dispatch(editExpense(id, expenseUpdates));
+        });
+    };
+};
+
+// have a look at the remove expenses too!!
+//REMOVE_EXPENSE_GENERATOR
+
+export const startRemoveExpense = (expenseId) => {
+    return (dispatch) => {
+        return database.ref(`expenses/${expenseId}`).remove().then( ()=> {
+            dispatch(removeExpense(expenseId));
+        });
+    };
+};
+
+Now comes the beautiful part. Displaying the 'Loading...' text till we fetch all the expenses from the firebase.
+
+const jsx = (
+    <Provider store={store}>
+        <AppRouter/>
+    </Provider>
+);
+
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+store.dispatch(setStartExpense()).then( () => { // dispatch jsut returns whatever the action generator returns, here basically 
+                                                // it's returning a promise so we are using it.
+    ReactDOM.render(jsx, document.getElementById("app"));
+});
+
+Sign in functionality:
+
+create a GoogleAuthProvider provided by google and export it from firebase.js
+
+like below:
+
+...
+firebase.initializeApp(config);
+
+const database = firebase.database();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+
+export {firebase, googleAuthProvider, database as default};
+...
+
+now we have a triggered object ready to provide google Authentication functionality.
+
+Create a auth.js file in src/actions/
+
+import {firebase, googleAuthProvider} from '../firebase/firebase';
+
+just passin the Authentication object to signify the mode for login and returning the result 
+from whatever that is being triggered.
+
+export const startLogin = () => {
+    return () => {
+        return firebase.auth().signInWithPopup(googleAuthProvider);
+    }
+}
+
+export const startLogout = () => {
+    return () => {
+        return firebase.auth().signOut();
+    }
+}
+
+
+Create a login component and export it:
+
+import React from 'react';
+import {connect} from 'react-redux';
+import {startLogin} from '../actions/auth';
+
+const Login = (props) => {
+    return (
+        <div>
+            <button onClick={props.startLogin}>Log me in!</button>
+        </div>
+    )
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    startLogin: () => dispatch(startLogin())
+})
+
+export default connect(undefined, mapDispatchToProps)(Login);
+
+In app router make the login page default.
+
+In app.js you can put he below code to record the login and logout:
+
+firebase.auth().onAuthStateChanged( (user) => {
+    if(user) console.log(user, 'signed in!');
+    else console.log('Logged out!');
+})
+
+Logout in Header PAge:
+
+export const Header = ({startLogout}) => (
+    <div>
+        <p><b>Expensify!!</b></p>
+        <NavLink to="/dashboard" activeClassName="is-active" exact={true}>Dashboard |</NavLink>
+        <NavLink to="/create" activeClassName="is-active"> Add Expense | </NavLink>
+        <NavLink to="/help" activeClassName="is-active"> Help</NavLink>
+        <button onClick={startLogout}>Log me out!</button>
+    </div>
+);
+
+const mapStateToProps = (dispatch) => ({
+    startLogout: () => dispatch(startLogout())
+})
+
+export default connect(undefined, mapStateToProps)(Header);
+
+sign out is just as sign in..
+
+REdirectigng for login or logout:
+
+@yarn install
+
+yarn add history@4.7.2
+
+When you want to redirect to root directory when the user logouts -- how it can be performed ??
+
+so far, the routing is mostly handled by BrowserRouter.
+
+BrowserRouter internally uses history object, that can be installed from npm.
+
+If we can get access to that history object and push any path, we will get to that directory.
+
+So far browserRouter, inherently provides access to that object for all the components that are inside it.
+
+Now we are handling this redirecting logic in app.js, where BrowserRouter is actually the child.
+
+So to over come this, we are gonna use, Router. 
+
+It's the parent of BrowserRouter. One benifit of using it is we can actually pass our own customised or original history object.
+That way, we will have access to the same hsitory object that componets are using.
+
+Roter changeAppRouter logic will now actually look liek below:
+
+
+import createHistory from 'history/createBrowserHistory'
+
+export const history = createHistory(); // we are also exporting the history object to use it else where as needed.
+
+export const AppRouter = () => (
+    <Router history={history}> // we are explicitly passing history object
+    <div>
+        <Header />
+        <Switch>
+            <Route path="/" component={LoginPage} exact={true}/>
+            <Route path="/dashboard" component={ExpenseDashboardPage} />
+            <Route path="/create" component={AddExpensePage} />            
+            <Route path="/edit/:id" component={EditExpensePage} />
+            <Route path="/help" component={HelpPage} />
+            <Route component={NotFoundPage} />
+        </Switch>
+    </div>
+    </Router>
+);
+
+we use that in our app.js file asd expected for redirecting.
+
+let hasRendered=false;
+
+const renderApp = () => { // a function which will render only once based on a flag
+    if(!hasRendered)
+    {
+        ReactDOM.render(jsx, document.getElementById("app"));
+        hasRendered = true;
+    }
+}
+
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+firebase.auth().onAuthStateChanged( (user) => {
+    if(user) 
+    {
+        console.log(user, 'signed in!');
+        store.dispatch(setStartExpense()).then( () => { // as soon as signed in, render the app, but only if not rendered already
+            renderApp(); // render app does work here, when you are logged in, and you closed the page and then you again accessed.
+            if(history.location.pathname === '/') // when we do a hard refresh, this function gets triggered again, 
+                                                  // so redirect only when we initally login, not every time when there is a
+                                                  // hard refresh even after logged in. so this condition ensures, we redict only
+                                                  // when we are in login page.
+            {
+                history.push('/dashboard');
+            }
+        });
+    }
+    else {
+        history.push('/'); // initally when the page loads or user signs out, this else block gets executed.
+        renderApp(); // render app does work here.! if you are initally logged out ;)
+        console.log('Logged out..!');
+    }
+})
+
+Private routes:
+===============
+
+Handle Private routing by storing the user id when the user login in the redux store.
+
+define the action functions:
+
+export const Login = (uid) => ({
+    type: 'LOGIN',
+    uid
+});
+
+export const LogOut = () => ({
+    type: 'LOGOUT'
+});
+
+define the auth reducer:
+
+export const authReducer = (state = {}, action) => {
+    switch(action.type) {
+        case 'LOGIN':
+            return {
+                uid: action.uid
+            };
+        case 'LOGOUT':
+            return {};
+        default: // always mention a default state, becuase when we compose reducers, care should be taken that, when an action
+                 // totally unrelated to reducer comes, it should be handled by default state only.
+            return state;
+    }
+}
+
+Now that we have track of whether the user is logged in or not, lets use that.
+
+You create a privaterouter for all components that needs to get displayed when the user is logged in.
+
+export const AppRouter = () => (
+    <Router history={history}>
+        <Switch>
+                <Route path="/" component={LoginPage} exact={true}/>
+                <PrivateRoute path="/dashboard" component={ExpenseDashboardPage} />
+                <PrivateRoute path="/create" component={AddExpensePage} />            
+                <PrivateRoute path="/edit/:id" component={EditExpensePage} />
+                <Route path="/help" component={HelpPage} />
+                <Route component={NotFoundPage} />
+        </Switch>
+    </Router>
+);
+
+Private router definition: ITs just returns a route component with the wanted component when user is logged in or else a REdirect 
+==========================
+component.
+
+import React from 'react';
+import {connect} from 'react-redux';
+import {Route, Redirect} from 'react-router-dom';
+import Header from '../Components/Header';
+
+export const PrivateRoute = ({
+    isAuthDone,
+    component: Component,
+    ...rest
+}) => {
+    return <Route {...rest} component={ (props) => { // here we are directly declaring the component instead of using a variable 
+                                                     // that holds a declared component.
+        return isAuthDone ? (
+                <div>
+                    <Header />
+                    <Component {...props}/>
+                </div>
+            ) :
+            ( 
+                <Redirect to="/" />
+            );
+    }} />
+}
+
+const mapStateToProps = (state)  => {
+    return {
+        isAuthDone : !!state.auth.uid // clever use of uid value.
+    }
+}
+
+export default connect(mapStateToProps)(PrivateRoute);
+
+We dont wanna user to see login component when the user is already logged in ?
+
+Never use a generic styles like .textarea {
+
+}
+
+because third party components like date-picker might get missed up.
+so create calsses  un need and apply them to inputs u need.
+
+Always set the below css,
+
+* {
+    box-sizing: border-box;
+}
+
+The above universal sets the border of any element to its height or width but not also with the padding added.
+
+
+
+
+

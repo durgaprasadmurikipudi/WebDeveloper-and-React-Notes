@@ -1,0 +1,1519 @@
+Install babel, live server.
+
+yarn add babel-cli@6.24.1 live-server 
+
+to check if babel was already installed, type out : babel --help
+
+commands and their uses:
+========================    
+
+
+1.  yarn add babel-preset-react@6.24.1
+	Install preset for Babel, such that it can compile react js library- latest version at the time of course is 6.24.1
+
+2.  yarn add babel-preset-env@1.5.2
+    Env for like ES5, ES6, ES7
+
+3.  yarn init
+	This command walks you through an interactive session to create a package.json
+	If you already have an existing package.json file, then it will use the file’s entries as defaults.
+
+4.  babel src/app.js --out-file=public/scripts/index.js --presets=env,react --watch
+	command to compile the react js scripted file to a normal js file and also that --watch flag enables a continuous watch on 
+    reactjs script file if its being edited.
+
+5.  live-server Public
+	Launch reactjs app 
+
+6.  yarn add webpack@3.1.0
+    Asset bundler. Inbuilt minifier.
+
+7.  yarn add react@16.0.0 
+    To use in javascript files 
+
+8.  yarn add react-dom@16.0.0
+    To use in javascript files by importing them [like node_modules]
+
+9.  yarn add babel-core@6.25.0
+    To add babel loader to webpack. Difference between babel-cli and babel-core is babel-cli can be used from command line
+    , while babel-core can be used as plugin to get the babel functionality.
+
+10. yarn add babel-loader@7.1.1
+    To teach webpack on how to use babel loader.
+
+Git Instructions:
+1. git init : To start tracking your project with git.
+2. git add <package.json>: format:  git add <filename> : After starting the tracking under git, you specify files to specifi
+                                                         cally track. Also to move modified files to staged state.
+3. git add Public : you can also start tracking a directory and all subdirectories and files in it by add option/cmd.
+4. git commit -m "Initial version of Indecision app project": git commit to commit files present in staged to Commited stage.
+5. git status : To check for files present in modified files and staged files.
+6. git rm --cached node_modules/ - To untrack tracked files.
+7. git update-index --assume-unchanged node_modules : same as above cmd.
+8. git tag -a v0.1 -m "Init version" : To add tag to the current commited version.
+9. git show v0.1 -m "Init version" : To show the tag details and all the code perhaps..
+10. git remote add Indecision https://github.com/durgaprasadmurikipudi/IndecisionApp.git : format: git remote add <Indecision : remote branch name>
+                                                                                                   <write the url>
+                                                                                                   To add a remote repository to git.
+
+11. git remote -v : To show all the remote repositories present.
+12. git push --set-upstream Indecision master: format : git <push : set the destination for pushing changes> <--set-upstream :
+                                                        flag to indicate a remote repository> <Indecision : name of the remote 
+                                                        repository> <master : branch that you wish to get pushed>
+13. git push Indecision master : to push your local master branch changes to remote repo Indecision master and that too master 
+                                 branch. By defaul the working branch will be pushed and you need not mention it perhaps.
+14. git fetch Indecision master: format : git <fetch : indicate action of fetch> <Indecision : remote repo name> 
+                                          <master: branch in that>
+15. git pull Indecision master: format : git <pull : indicate action of pull, merges all changes.> 
+                                         <Indecision : remote branch name> <master: branch in that repo>
+16. git log --oneline --decorate : basically to see all tags. 
+
+Course :
+
+We write a sample HTML page, and also you get to include a cdn to reactjs library and then add script source : 
+as some index js file which basically provides the intended functionality, responsiveness and interactivity of the page.
+
+You write app.js in some other file using react js lib with whatever ES version you want to use (>= ES5) 
+and point babel compiler to compile it, watch it (-> whenever this file gets modified, produces a file of whose contents 
+will be written in index.js file. The contents are just a plain javascript file logically equivalent to the reactjs code 
+we wrote in app.js, Because JS is what which will be well understood by browser.)
+
+so actually the code that you write in app.js file is more like an abstraction and needs to be compiled using the help of
+ babel react preset.
+
+React uses a virtual dom to get things displayed in browser and to modify it.
+
+A JSX template is a nearly equivalent HTML template, where you structure the content along with JS variables that are 
+dynamic.
+
+An example JSX template:
+const userTemplate = (
+    <div>
+        <h1>Hey dude! My name is Durga Prasad.</h1>
+        <p>Age: 25</p>
+        <p>City: Hyderabad</p>
+    </div>
+);
+
+These templates are typically binded to a div section in HTML:
+by 
+
+1. Using react lib call ReactDOM.render(titleTemplate, appRoot);
+	where titleTemplate or the first parameter is JSX template that you want to get binded to a tag in the HTML 
+    and app root is the unique identifier that identifies this HTML tag.
+
+	HTML tag - reference can be brought by a general JS call : const appRoot = document.getElementById('app-root');
+	Here 'app-root' is the id of a HTML tag ( div tag may be)
+
+
+Usage of dynamic content and Handling form inputs:
+
+Conside the below example JSX template:
+
+const title = {
+    name : 'Racha app!! ',
+    tagline : ' ama da...',
+    options : ['one-o', 'two-o']
+}
+
+Above title  is some dynamic variable in app.js file.
+
+const titleTemplate =(
+        <div>
+            {title.name && <p>{title.name + '-' + title.tagline}</p>}
+            {title.options.length > 0 ? "Options exist..!" : "Nope mamu!"}
+            <p>{title.options.length}</p>
+            <ol>
+            {
+                title.options.map((elem, index) => {
+                    return <li key={index}>{elem}</li>
+                })
+            }
+            </ol>
+            <form onSubmit={onFormSubmitted}>
+                <input type='text' name='optns'/>
+                <button>Submit</button>
+                <button onClick={removeAll}>Remove All</button>
+            </form>
+        </div>
+    );
+
+As you can see to evaluate javascript expressions and print out some dynamic JSX templates, we use '{}' syntax.
+
+Inside it we can evaluate a JS logic and also print out a dynamic JSX content.
+
+If an evaluation of a JS expression inside this {} turns out to be undefined, null, false then that whole expression {} 
+is ignored in ReactJS.
+
+We can handle forms by evaluating functions written in app js file and binding them to action 'onClick', and 'onSubmit'.
+
+Example code of an how a EventHandler is handled:
+
+const onFormSubmitted = (e) => {
+    e.preventDefault();
+
+    const option  = e.target.elements.optns.value;
+
+    if(option)
+    {
+        title.options.push(option);
+        e.target.elements.optns.value = '';
+    }
+    renderTitleTemplate();
+}
+
+When a template is rebinded only dynamic expressions are evaluated and changed in the original browser dom, rest static 
+content is not changed.
+
+Another event handler example : 
+const removeAll = (e) => {
+    e.preventDefault();
+    title.options.length = 0;
+    renderTitleTemplate();
+}
+
+Most of the code is javascript with occasional use of react objects.
+
+ES6 Classes:
+In Javascript from ES6 we could use classes.
+
+class Person
+{
+    constructor(name, age)
+    {
+        this.name = name;
+        this.age = age;
+    }
+
+    getGreeting() {
+        return this.name + "->" + this.age;
+    }
+}
+
+As you could see from above.. the constructor defines the fields that class encapsulates and also it can have functions.
+
+const me = new Person("DP", 26); // valid
+const me = new Person("DP"); // valid.. although age gets value as undefined.
+
+React Components:
+These are a way to reuse html templates with dynamic content ensured.
+
+An Example:
+
+
+class IndecisionApp extends React.Component 
+{
+    
+    render()
+    {
+        const title = 'Indecision App';
+        const subtitle = 'Put your life in the hands of a computer!';
+        const options = ['Option1', 'Option2', 'Option3'];
+
+        return (
+            <div>
+                <Header title={title} subtitle={subtitle} />
+                <Action />
+                <Options options={options}/>
+                <AddOption />
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<IndecisionApp />, document.getElementById('app-root'));
+
+As you can see the IndecisionApp is a react component that could be displayed onto the HTML, and its syntax is similar to 
+that of a HTML tag. The important difference is hmtl tags in react follow lowercase convention. 
+Where as a React component tag will have the first letter as caps. You can say its a Pascal case ?
+
+But its important that the React component tag should have its first letter as capitalised else Babel compiler/ React
+would not treat it as a react component header.
+
+Also as you can see from above a react component can have another react component as nested in it.
+
+Each custom react component overides the render function from the parent class and returns a JSX template or simple HTML 
+template. you can pass data to a react component using attribute like syntax (key-value pair). These are called props.
+
+class Options extends React.Component{
+    render()
+    {
+        return (
+            <div>
+                <div>Options length is {this.props.options.length}</div>
+                <ul>
+                {
+                    this.props.options.map(
+                            (option) => {
+                                return <Option key={option} optionText={option} />
+                            }
+                        )
+                }
+                </ul>
+            </div>
+        );
+    }
+}
+
+And as seen from above, the data passed can be accessed from the property 'this.props' if you have passed data with name 
+'options', then it can be accessed via name 'this.props.options'.
+
+Key props:
+To differentiate array like data while displaying, it better have Key props. 
+As seen from above, for array of options we have set key props, which are unique in value.
+'key' is a special word / keyword to differentiate the props 
+
+Wiring events:
+class AddOption extends React.Component{
+    
+    onFormSubmit()
+    {
+        alert('Form Submitted!');
+    }
+    
+    render()
+    {
+        return (
+            <form onSubmit={this.onFormSubmit}>
+                <input type="text"/>
+                <button type="submit">Submit</button>
+            </form>
+        );
+    }
+}
+
+As you can see from above in the react component class you can declare methods that could be used for event handling.
+
+Beware you access the methods declared in the component class by 'this.'. Else react will throw an error.
+
+Throwing error in react terms is just displaying the empty page :P.
+
+
+Methods binding:
+================
+
+Let's see a basic component
+
+class Options extends React.Component{
+    display()
+    {
+        console.log(this.props); ==> line - 1
+    }
+
+    render()
+    {
+        return (
+            <div>
+                <div>Options length is {this.props.options.length}</div>
+                <ul>
+                {
+                    this.props.options.map(
+                            (option) => {
+                                return <Option key={option} optionText={option} />
+                            }
+                        )
+                }
+                </ul>
+            </div>
+        );
+    }
+}
+
+ consider the line -1, the this.props.options which is accessible in render function,
+ suddenly doesn't get accessed in display function and that particular line throws null error.
+
+ But y ?
+
+ consider the below example..
+
+ const obj = {
+     name: 'Vikram',
+     getName() {
+         return this.name;
+     }
+ }
+
+ obj.getName(); == works fine.. no error, right syntax.
+
+ But what about this.. ?
+
+ const disp = obj.getName;
+
+ console.log(disp())); ==> this line, is error. why ? disp in windows context(meaning
+ global context, and in the global context there is nothing like variable 'name'. Hence the
+ error. )
+
+ But there is a work around man..
+ Js provides a bind method which when invoked on a function, makes it work under a
+ particular context. This context could be passed as param to this bind.
+ ex: const disp = obj.getName.bind(obj); // Right, this works..!!
+ const disp = obj.getName.bind({name: 'Vikram bhai'}); // as expected this does too..!! 
+
+ so now,
+ let's do the same, provide the context for the event handler function.
+
+ class Options extends React.Component
+ {
+    display()
+    {
+        console.log(this.props); // ==> line - 1 // so basically this referes to Options.props
+    }
+
+    render()
+    {
+        return (
+            <div>
+                <div>Options length is {this.props.options.length}</div>
+                <button onClick={this.display.bind(this)}>Display</button> // ==> now, with this line you get to provide 
+                                                                                  the context and in display function the 
+                                                                                  this.props could be accessed.
+                                                                                  Here basically it's referring to context it was
+                                                                                  called from.
+                <ul>
+                {
+                    this.props.options.map(
+                            (option) => {
+                                return <Option key={option} optionText={option} />
+                            }
+                        )
+                }
+                </ul>
+            </div>
+        );
+    }
+}
+
+But this happens to be inefficient, every time this component is displayed, context setting is done and as it happens,
+this can take a toll on performance.
+
+class Options extends React.Component
+{
+    constructor(props) 
+    {
+        super(props);
+        this.display = this.display.bind(this); //You also clone the function such that it executes its logic under 
+                                            component props environment, that is the context is set such that all the prop 
+                                            variables are accessible now.
+
+    }
+
+    display()
+    {
+        console.log(this.props); // ==> line - 1
+    }
+
+    render()
+    {
+        return (
+            <div>
+                <div>Options length is {this.props.options.length}</div>
+                <button onClick={this.display}>Display</button> // ==> now, with this line you get to provide 
+                                                                                  the context and in display function the 
+                                                                                  this.props could be accessed.
+                <ul>
+                {
+                    this.props.options.map(
+                            (option) => {
+                                return <Option key={option} optionText={option} />
+                            }
+                        )
+                }
+                </ul>
+            </div>
+        );
+    }
+}
+
+Component State:
+================
+
+This is important because, you know every component is associated with data and when the data changes the component has to
+re-render itself.
+
+this.state is a special property holding a object.  You declare all the variables in this object., that variables, which
+ when modified, will trigger an event such to the component to rerender itself to reflect the latest state changes.
+
+Whenever you wish to trigger the component-rerendering when the state is changed, you call the setState library
+with a lambda function as a parameter to it. This lambda function returns an object which is the updated state object.
+The updated state object's variables are re-rendered. The properties/variables that are not present in the updated
+state object are not modified and retain their previous value or state. You can also pass the previous state object 
+to the setState function, so that when taking taking decisions on current state that requires previous state knowledge,
+this param could come handy.
+
+ class ToggleVisibility extends React.Component
+ {
+     constructor (props)
+     {
+        super(props);
+
+        this.toggle = this.toggle.bind(this);
+
+        this.state = { // State object for the component.
+            visible : true
+        }
+     }
+
+     toggle()
+     {
+        this.setState((prevState) => { // This.set state function and param having reference to previous state.
+            return { // Returning the modified state .
+                visible : !prevState.visible
+            };
+        });
+     }
+
+     render()
+     {
+         return (
+             <div>
+                <button onClick={this.toggle}>{this.state.visible ? 'Hide Me!' : 'Make it alive!'}</button>
+                <p>{this.state.visible && <p>Hey There!!</p>}</p>
+             </div>
+         );
+
+     }
+ }
+
+ So essentially, When a component is instantiated, the component's render function is called like render.bind(this);
+ Thus way render function gets access to all the properties provided by Parent component and ReactJS lib available at run time.  
+ For this to be available to all the functions present in component, we introduce the constructor(this) in component.
+ Thus we explicitly force the ReactJS lib to provide the context in which the component is being instantiated.
+ Also, once after the context is provided, the methods are happily provided this context present in the component object.
+
+
+
+ Application of component state:
+ ===============================
+ 
+ class IndecisionApp extends React.Component 
+{
+    constructor(props)
+    {
+        super(props);
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this); // Functions to delete operations set at the 
+                                                                        // context of Parent Component from which
+                                                                        // it is called at runtime.
+        this.handleSelectOption = this.handleSelectOption.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
+        this.state = {
+            options : ['Option1', 'Option2', 'Option3']
+        }
+    }
+
+    handleDeleteOptions()
+    {
+        this.setState(() => {
+            return {
+                options : []
+            }
+        });
+    }
+
+    handleSelectOption() 
+    {
+        if(this.state.options.length > 0)
+            alert(this.state.options[Math.floor(Math.random() * this.state.options.length)]);
+        else alert('No options');
+    }
+
+    handleAddOption(option)
+    {
+        
+        if(!option) // Checking if string is null or undefined or if is an empty string.
+        {
+            return 'Not valid option!';
+        }
+        else if(this.state.options.indexOf(option.trim()) > -1)
+        {
+            return 'Option already exists!';
+        }
+        else
+
+        this.setState((prevState) => {
+            return {
+                options : prevState.options.concat([option])
+            }
+        });
+        console.log('Option added successfully');
+    }
+    
+    render()
+    {
+        const title = 'Indecision App';
+        const subtitle = 'Put your life in the hands of a computer!';        
+
+        return (
+            <div>
+                <Header title={title} subtitle={subtitle} />
+                // Below is how we pass the action methods to child components, thus they could alter the state
+                // belonging to Parent. This is possible only because the closure function concept, i.e., having access
+                // to all the resources of an enclsing function or object.
+                <Action handleSelectOption={this.handleSelectOption} hasOptions={this.state.options.length > 0}/>
+                <Options options={this.state.options}
+                         handleDeleteOptions = {this.handleDeleteOptions}
+                />
+                <AddOption handleAddOption={this.handleAddOption}/>
+            </div>
+        );
+    }
+}
+
+Below we see the Option component maintaining it's own state..
+
+class AddOption extends React.Component{
+
+    constructor(props)
+    {
+        super(props);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.state = {
+            error : undefined
+        }
+    }
+    
+    // See how beautifully we used the 'e' object or perhaps event object.
+    // remember the e.target.elements refer to all the input elements present in form it came from.
+    // They all can be referred by their name.
+    onFormSubmit(e)
+    {
+        e.preventDefault();   
+        const option = e.target.elements.option.value;
+        const error = this.props.handleAddOption(option);
+        if(error)
+        {
+            // As this set state is triggered this component rerender's itself.
+            this.setState(() => {
+                return {
+                    error : error
+                }
+            });
+        }
+    }
+    
+    render()
+    {
+        return (
+            <form onSubmit={this.onFormSubmit}>
+                {this.state.error && <p>{this.state.error}</p>}
+                <input type="text" name="option"/>
+                <button type="submit" >Submit</button>
+            </form>
+        );
+    }
+}
+
+Stateless Functional Component:
+===============================
+
+As name describes, this is a component, and basically just a function and unlike class based function is stateless.
+
+an example of that would be:
+
+const User = () => {
+    return (
+        <div>
+            <p>Name: </p>
+        </div>
+    );
+
+}
+
+This just returns the JSX expression to be rendered.
+
+What if you wish to pass some data from, like parent component or from direct call via ReactDOM.render()?
+
+example:
+
+const User = (props) => {
+    return (
+        <div>
+            <p>Name: {props.name}</p>
+            <p>Age: {props.age}</p>
+        </div>
+    );
+}
+
+ReactDOM.render(<User name='Durga' age = {26}/> );
+
+The react JSX expression always return in the below format :
+
+return (
+
+);
+
+
+No line breaks in between. No change of style. Just like that.
+
+Default props and conditional rendering based on Props value:
+=============================================================
+
+...
+<Header title={title} 
+                        subtitle={subtitle} />
+...
+
+This is how you call or instantiate or perhaps set the location of a component in webpage to get it rendered.
+
+See how you send the properties / dynamic values to be used in component ?
+
+Well you can also set default props for those..
+
+For example:
+
+Header.defaultProps = {
+    title: 'Indecision App'
+}
+
+and call the Header Component this way :
+
+<Header subtitle={subtitle} />
+
+and in the below :
+
+const Header = (props) =>
+{
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            <h2>{props.subtitle}</h2>
+        </div>
+    );    
+}
+
+ no marks for guessing, the H1 tag will have value 'Indecision app'.
+
+const Header = (props) =>
+{
+    return (
+        <div>
+            <h1>{props.title}</h1>
+            {props.subtitle && <h2>{props.subtitle}</h2>} // == > Conditional Rendering
+        </div>
+    );    
+}
+
+So far, we gave default props to stateless Functional components.
+
+How about we give this touch to class based components ?
+
+We know IndecisionApp is a class based component and it's properties reside in special object called this.state in the below 
+form:
+
+this.state {
+    property-1 : some-value-1,
+    property-2 : some-value-2
+}
+
+now we know IndecisionApp component has one property that is options. Lets pass default values to it.
+
+IndecisionaApp.defaultProps = {
+    options :[]
+}
+
+In the IndecisionApp component, change the this.state object's property to refer to this.props.options like every component
+does.
+...
+this.state = {
+    options : this.props.options
+
+}
+...
+
+Now you can either pass the props or the props will be automatically collected from defaultProps object.
+
+Invocation would be like below :
+
+<IndecisionApp options={['Option-1', 'Option-2']} />
+
+cool thing, you can access in this.state by props.options also instead of this.props.options.
+
+But always remember 'this.' is what we use the most.
+
+Also, little notes about arrow functions.
+
+const num = () => 12 + 2
+
+now num() returns 14;
+
+const someRandString = () => 'Awesome'
+now someRandString() returns 'Awesome'
+
+cool, now what does this return ?
+
+const someObj = () => {}
+
+you might say an empty object ?
+well that seems right, but it assumes curly braces as empty function body and when you call someObj() returns undefined
+
+so to return an empty object, we got to keep that empty object in parenthesis.
+
+so, const someObject = () => ({})
+ now someObject() returns {}, an empty object.
+
+ LifeCycle Methods:
+ ==================
+
+ Example methods :
+
+ componentDidMount();
+ componentDidMount();
+ componentWillUnmount();
+
+ These are available by default and are fired internally when the component state is changed or when the  component is 
+ initialised.
+
+ You wont call them. REact does the job, but you define this functions with the exact same name in the component and
+ tell it the actions it has do.
+
+ componentDidMount(prevProps, prevState); // See this event has two params --> previous props, 
+ that is entire component methods probably ? and prevState.
+ cool eh ?
+
+ Using Local Storage - Fetching and Saving items using Component LifeCycle methods:
+ ==================================================================================
+ Why do we use it, to keep the data between page loads.
+ A tip : 
+ Let the lifecycle methods trigger only when there is a data change. If applicable, do a check like if prev state is
+ same as current state.
+
+
+ Handle edge cases, like option is null or an empty string.
+
+ Double clicking of Remove all - which sets the state.options to an empty array again and again.
+
+ Try Catch Addition:
+ ===================
+
+ Bonus Tweaks:
+ =============
+ Clear the input section once the input is added.
+ Show a message to add options, when options array is empty.
+
+ Miscellaneous:
+ ==============
+
+ const json = localStorage.getItem('options'); // localStorage is a class that lets us utilize the browser storage.
+                                               // this class lets us store the data in from of key-value pairs.
+                                               // getItem takes input as key and returns string.
+                                               // Only strings are allowed for 'value'.
+
+const Options = JSON.parse(json)               // JSON is a class provided by browser for JSON Utils. Here parse is used.
+const json = JSON.stringify(this.state.options)// stringify util in JSON.
+
+localStorage.setItem('options', json);         // setItem to store.
+
+
+ Webpack:
+ =======
+
+ what is and why - Webpack?
+
+ Webpack : is an asset bundler. It takes all our source files and third party libraries and spits out a single js file.
+
+ This is great because We can maintain a seperate file for each component.
+
+ Webpack doesn't simply concatenate all our javascript files.
+
+ It actaully for each javascript file, creates an individual island, and thus facilating use of ES6 import module 
+ functionality. But how exactly ?
+
+ So when we use the ES6 or some ESX feature of import module, what the webpack does is actually get that javascript code
+ before actually processing the current javascript file.
+
+ So happily we can create a javascript file that has multiple dependencies and the webpack will understand it and 
+ does the work of merging all those files into a single file which logically does what all these files collectively do.
+
+ So ease of work to us. We can clearly seperate our code from another part of code which does something different.
+ i.e., enabling us to create meaningful logical boundaries for readability and maintenance sake.
+
+ Not only that, it can actually install dependencies from yarn or npm. How cool is that ??
+
+ So with the tiny little islands concept, when global variables are brought from different modules and bundled into a 
+ single file, they are saved from being overwritten by the namesapces that webpack adds.
+
+ Also, it can run babel for us :) 
+
+ It generally outputs file called 'bundle.js'.
+
+ It can understand dependencies and loads files according to that.
+
+ First things first, Say no to global modules!!
+
+ Why you may ask.. so far, we have installed babel and live-server globally. So our package.json doesn't contain it.
+ so when you collaborate with another guy, you are not actually giving/mentioning all the tools he needs.
+
+ More over when you install globally, you could have 5 or 6 react js projects and all this would be using 
+ same Babel version, which might not be realistic in production scenario.
+
+ It's best to define the exact package version you are using for this project in respective project's json package file.
+
+ so instead of yarn add global or npm install -g
+ you do yarn add babel-cli@6.24.1 live-server / npm install babel-cli live-server.
+
+ How about a lovely short cut for commands you daily run to run your react.js ?
+
+ How to make them project specific ? ;)
+
+ ofcourse, by the use of package.json file.
+
+ In package json file you can actually define a key-value pairs like this:
+  "scripts" :
+  {
+      "serve" : "live-server Public/",
+      "build-beta" : "babel src/PlayGround/app-test.js --out-file=Public/scripts/index.js --presets=env,react --watch",
+      "build" : "babel src/app.js --out-file=Public/scripts/index.js --presets=env,react --watch"
+  }
+
+  And the syntax to use it.. to type out simply "yarn run serve"
+  :) -- Shortcuts courtesy - yarn.
+
+  so why no global variables ?
+  All dependencies required are listed out in project's package.json file
+  All dependencies are listed out with the specific version specific to project.
+  We also can have our own set of alias-names for our commands :)
+
+  Installing Webpack:
+  ===================
+
+  yarn add webpack@3.1.0
+
+  We add it locally and also we edit webpack config file such that it suits our application needs.
+
+  webpack.config.js is the config file for webpack and it should be present in the root folder of project.
+  Else webpack will throw an error.
+
+  webpack.config.js :
+  ===================
+
+  it's a javascript file, could be run on node.
+
+  sample contents of file:
+
+  const path = require('path')
+
+  module.exports = {                                // node style to exposrt an object. Here to expose it to webpack.
+      entry: './src/app.js',                        // this property mention the input file path.
+      output: {                                     // output property is an object that holds on info about output file.
+          path: path.join(__dirname, 'public')      // unlike used in entry, we cannot use relative paths here. Hence the use of 
+                                                    // __dirname const from node. It basically points out to current directory path
+                                                    // use path.join to concatenate.
+          filename: 'bundle.js'                     // filename: property lets us mention the output filename.
+      }
+  }
+
+  now we add shortcut to package.json file to run it. The entry is simply -> 
+  "buildit" : "webpack --watch"
+  you know, why we are using that --watch flag.
+
+  Then to invoke webpack you can simply type "yarn run buildit"
+
+  It looks for webpack.config.js file and accordingly runs it.
+
+  now once after you run it, you will find bundle.js in /Public/ folder.
+
+  you can remove all reactjs lib links and also link to src file.
+  Because one reference to '/bundle.js' is all enough.
+
+  just '/bundle.js' not full path because, when we run live-server Public, Public folder
+  becomes the root path.
+  
+  ES6 import and export statements:
+
+  instead of having everything in one big file, we use ES6 import and export statements, to fragement into our code into
+  smaller file’s that could communicate with one another.
+
+  That way as we add more and more components, into a single file, this concept just doesn't scale.
+
+  There are 2 parts to remember while we use import and export statements with webpack.
+
+  1. Ability to load files you wrote and
+
+  2. Ability to load in third party files. Things like react and react-dom.
+
+  Let's say your entry point is app.js as you mentioned in webpack.config.js
+  Now you want to import the utils.js file into it,
+  you do it by statement ->
+  import './utils.js'
+
+  ./ referes to the current directory where app.js source file resides in.
+  "Relative path" is used.
+
+ Now if we want to use any function from utils.js, we have to explicitly export it from utils.js
+ By default we dont have access to everything in utils.js as soon as we import as it would pollute the global namespace.
+ therefore, that which functions are exported in utils.js only would be accessible in a file that imports it.
+ There are 2 types of exports.
+
+ for example if there are 2 functions in util.js like below :
+
+ const add = (a, b) => a + b;
+ const square = (a) => a * a;
+
+ you can export the above two functions by below syntax:
+
+ export { add, square};
+
+ and in the place where you import, you have to change the import syntax this way:
+ import {square, add} from './utils.js'
+
+ or you simply export each function inline by below way:
+
+
+ export const add = (a, b) => a + b;
+ export const square = (a) => a * a;
+
+ you can also do a default export this way:
+
+ const subtract = (a, b) => a - b;
+
+ export default subtract;
+
+ or you can simply put, export default (a,b) => a - b;
+
+ or even like this,
+
+ export {add, square, subtract as default } 
+
+ both work.
+
+There is a slight different mechanism to import default functions in the importing file:
+
+the import syntax is like this:
+
+import subtract, {add, square} from './utils.js'
+
+you can also rename the importing function as you like.
+
+import anythingIWant, {add, subtract} from './utils.js'
+
+and still anythingIWant refers to the subtract functionality present in './utils.js';
+
+Importing NPM modules:
+======================
+
+instead of specifying file path: you just mention the npm package name exactly.
+
+import validator from 'validator'
+
+so cool, while creating a react project, we import react and reactdom modules like this and start building a react js app ?
+nah,
+
+see the below code..
+
+import React from 'react'; 
+import ReactDOM from 'react-dom';
+
+const template = <p>Hey man, Hows things going ?</p>
+ReactDOM.render(template, document.getElementById('app-root'));
+
+
+The above code, should work.. don't you agree ?
+Nope, did you forget that the JSX expressions should be first converted into pureJS by babel?
+So when you just invoke webpack, no one knows how to compile that JSX expression and we get an error.
+
+so how to incorporate babel in webpack ?
+
+and by the way, you can make the above code work by changing code like below:
+
+
+
+import React from 'react'; 
+import ReactDOM from 'react-dom';
+
+const template = React.createElement('p', {}, 'testing 123');
+ReactDOM.render(template, document.getElementById('app-root'));
+
+moving on.,
+
+For as to incorporate babel into webpack, we are gonna customise the behavior of webpack as how it loads files.
+
+Before it picks up certain files like js files or css files, we can make it run through loader, [here in this case, it is
+js files that run through babel loader] and then their output is bundled as 'bundle.js'.
+
+For that we need to import modules: react, react-dom, babel-core and babel-loader: so that we can import them as
+javascript files.
+
+and to convert any other javascript convertible's.
+
+yarn add react@16.0.0 
+yarn add react-dom@16.0.0
+yarn add babel-core@6.25.0
+yarn add babel-loader@7.1.1
+
+Now we are gonna set up the loader babel for webpack,
+
+this is done by specifying the module property modile.exports in webpack.config.js
+module property is kept along side the properties of entry and exit in module.exports
+There are ton of different things that we can set through this module, but now we are gonna mention rules.
+This rules specify as how we are gonna use loader.
+One rule might mention on what to do with js files and another might mention what to do with spss files.. like that.
+
+
+ module : {
+      rules : [{     //In the rules property, which takes an array of rule objects, we just mention one rule for now to use babel
+        loader: 'babel-loader', //what loader are we using ?
+        test: /\.js$/, // test proeprty takes in a regular expression. Here we just mentioned that to take all the files that end
+                       // with .js
+        exclude: /node_modules/ // just exclude the node_modules directory. while importing, if you happen to got node_modules directory
+                                // no need to run this loader on them. just run laoder on whatever files that you pick up while along importing,
+                                // that are not present in node_modules
+
+      }]
+  }
+
+  All is cool and all is done now, now whatever js files that are picked up will be happily run through loader babel
+  and we get the expected es6 files. But wait, where did we mention the presets for babel.
+
+  In before we used to mention them as command arguments while using babel-cli.
+
+  Now to specify the same for babel-plugin or the babel-loader,
+  we need to create a seperate babel-configuration file for this in the root folder.
+  it needs to be called '.babelrc'
+
+  This is a json file and allows us to put all the commandline arguments here.
+  syntax:
+
+  {
+      "presets" : ["env", "react"]
+  }
+
+Now happily use your JSX expressions and have fun.
+
+Now lets go to one componet per file model, now that we have webpack and we can import files here and
+there whenever we want :P
+
+Now, move each component to its own file. There is no hard rules for naming conventions for component files.
+But people generally keep the file name same as the component name.
+
+Please note that, there are 2 things to remember while moving the component to it's own file..
+1. Not forgetting to export the component.
+
+    export default class AddOption extends React.Component{ // like this.
+
+    We can directly put export default in front of class definitions.
+
+    But we cannot place that in before constant variables.
+
+2. Not forgetting to import the React.
+    Although we don't see any direct usage of react, we got to import it in every component file, because the JSX expression
+    gets converted into React.createElement calls. In before we used to have access to global React and ReactDOM variables via
+    the scripts tags present in index.html. Now that should be included by webpack itself.
+
+    Babel, just by the help of React and ES6 (env) presets, converts JSX into the React.createElement calls.
+
+    The real definition of React.createElement should be accomodated by that import statements.
+
+Source Maps:
+by adding the below property, we can actually get links to original file source code whenever error 
+happens or a console.log is printed. 
+If this is not there, all we get is reference to bundle.js.
+
+devtool: 'cheap-module-eval-source-map'.
+
+Webpack dev server:
+===================
+
+Webpack has a dev server, which acts just like 'live-server'. It's super snappy and fast.
+The bundle.js it generates is loaded in memory rather than written to a physical file and hence 
+is fast. whatever we change in code could be directly be seen in  there, but we have to refresh :P.
+
+devServer: {
+        contentBase: path.join(__dirname, 'public')
+      }
+
+      add the above property to show the pulbic assets path to devserver.
+
+Also, we are not gonna need that babel shortcut to build in package,json
+Webpack does that. :)
+
+Time for a third party component:
+so far we are using Javascript function alert to alert the users:
+Two problems with this:
+1. It looks bad, 
+2. It stops javascript from executing in the behind
+
+now we are gonna use React-Modal:
+It's a third party library.
+There are bunch of other great thrid party tools like date picker, etc..
+once you know how to use a third party library component, its pretty much the same across all 
+the third party components.
+Now, we are gonna use reactmodal as opposed to javascript alert,
+
+Now before that, we are gonna learn about built in children prop.
+It's a fantastic tool and it makes really easy to pass in custom JSX to a given component.
+
+There are two ways to pass JSX or display a standard template:
+
+const Layout =(props) => {
+    return (
+        <div>
+        <p>Header</p>
+        {props.content} // Referring the template via props
+        <p>Footer</p>
+        </div>
+    );
+};
+
+const template1 = () => {
+    return (
+        <div>
+        <h1>Page title</h1>
+        <p>This is my page</p>
+        </div>
+    );
+};
+
+<Layout content={template1} /> //Passing a template via props
+
+Second way : referring via children props:
+
+const Layout =(props) => {
+    return (
+        <div>
+        <p>Header</p>
+        {props.children} // Referring the template via props.children, Here "Hi, there!" would lie like a paragraph block.
+        <p>Footer</p>
+        </div>
+    );
+};
+
+const template1 = () => {
+    return (
+        <div>
+        <h1>Page title</h1>
+        <p>This is my page</p>
+        </div>
+    );
+};
+
+ReactDOM.render(<Layout><p>Hi there!</p></Layout>, document.getElementById('app-root')); // When you write any JSX expression
+                                                                                         // inline in component, it can be 
+                                                                                         // accessed via build in prop: children
+
+ReactDOM.render( ( //Passing a JSX expression.
+    <Layout>
+        <p>Hi there!</p>
+    </Layout>
+) , document.getElementById('app-root')); 
+
+Well this way of passing is important because, we are gonna use several third party components and they all expect a 
+certain way of passing input. They are all gonna have their own api.
+
+REact Modal - third party component usage :
+
+installation:
+@yarn
+yarn add react-modal@2.2.2
+
+Styling react with Love <3
+==========================
+
+Setting webpack for using raw cssfiles:
+=======================================
+
+first we create basic css file in a dedicated folder for it in the project root folder for and it and keep the below rule:
+ * {
+     color: red;
+ }
+
+ which basically means, select all components and paint them red. This is gonna look terrible, but we are gonna benifited in
+ another way.
+
+ So basically we apply a different style, we can see the range where it can show effect on.
+
+ so far we used webpack to work with our js files and now we are gonna make it work much more harder
+ :P
+
+ lets assign it the duty of working with scss files :)
+ A preprocessor for css.
+
+ Before that first we need to have to get a loader for css, to make the webpack understand.
+
+ There are 2 of them which are required.
+
+ css-loader: to load all our required css assets.
+
+ it's going to teach it how to tkae a css file and convert into javscript form of the same.
+
+ now we are gonna need another one,
+
+ style-loader: this basically takes what's in javascript form of css and injects into the dom
+ by adding a style tag that will actually get our styles showing up in the browser.
+
+ @yarn
+ yarn add style-loader@0.18.2 css-loader@0.28.4
+
+ Now we mention the below rule in webpack.config.js
+ 
+        {
+          test: /\.css$/, // Run this rule on files ending with .css
+          use: [          // for css, we are gonna need a bunch of loaders to run on it.
+                          // so isntead of using the loader property, we use 'use' proeprty.
+                          // This allows us to mention us an array of loaders.
+                        
+            
+            'style-loader',
+            'css-loader'
+          ]
+        }
+
+Now we are gonna put the below line in the app.js
+import './styles/styles.css'
+
+WE just told webpack what to do, when it encounters a css files, as soon as we try to import it,
+the loaders get into actioon, particulary the style loader injects our styles into app.js
+
+check out the reason, why u need to run style loader first before css loader.
+
+The sequence of loaders mentioned in rule of webpack.config.js
+
+Just so you know, for a performance person, seeing the import statement for a css file would be little weird.
+He might have questions such as, does this really wait until javascript runs to set up our styles.
+yes its true and that's horribly inefficient and thats what our import statement is doing..
+
+lets teach our webpack on how to convert scss file into css file.
+we are gonna use, scss to write not sass
+difference between scss and sass is purely syntactical
+scss is little more verbose and clear :P
+but both are same to the sass/scss tool.
+
+Now we are gonna install sass loader and core.
+these are just like babel-loader and babel-core.
+
+@yarn
+yarn add sass-loader@6.0.6 node-sass@4.5.3
+
+change css file extension into scss.
+
+add a variable in scss file like below:
+$brand-color: blue;
+and use where ever u need a blue color.
+
+Now with the advent of scss into our project, we can split our css files into multiple files just
+like we did it with js files and stay organised. And also we can write styles with ease.
+
+Webpack would crash if the files it is loading is not a js file :O,
+so we used the three loaders, style-loader and css loader for css and sassloader for scss
+ultimately to make it a javascript file.
+
+scss supports import statement and so we can split our styles into multiple files and stay organised.
+
+Lets create a folder in styles called 'base'.
+here we shall write a _base.scss where the basic css like the font-family that is used all over app
+is mentioned.
+
+when we write a entry file we are gonna name it <name.css>
+when we write a file that contains a part of file we are gonna put a '_' to mention that this file
+is gonna contain a part of our application styles.
+
+And to import we can simply say @import './name.scss';
+the important thing to mention is when we import a partial scss file, we omit the underscore
+tSo to import styles present in _base.scss we are gonna say
+@import './base/base'
+
+see no extension is also mentioned.
+
+USe REM's instead of px in css. So that users can scale it off and on easy.
+A hardcoded px would be bad.
+
+1 rem = 16 px
+so to get 22.5 px we have to run through a bit of complicated calculation to convert it to rem's
+
+so instead what we do is put this little css rule in scss file
+
+html { // target entire html file.
+    font-size: 62.5%;
+}
+
+and why is that? 62.5% of 16 = 10;
+
+so now we have like rem's in base 10 :)
+ later put this also in body to restore normalcy.
+
+ body {
+     font-size: 1.6rem;
+ }
+
+ Now let's move onto the styling for our components.
+
+ create a component fodler in styles folder.
+ Inside it for our header component create a _header.scss
+
+ define a style for it like this.
+
+ .header {
+
+ }
+
+ import this _header.scss in mail styles.scss
+
+ also use this calss name in header component.
+ Else the style's not gonna apply.
+
+ const Header = (props) =>
+{
+    return (
+        <div className="header"> // Using class name header. Note that 'class' is not supported in JSX
+                                 // instead 'className' keyword is supported.
+            <h1>{props.title}</h1>
+            { props.subtitle && <h2>{props.subtitle}</h2>}
+        </div>
+    );    
+}
+
+
+/* BEM - Block element modifier */
+
+The style of naming css modifiers
+
+The Block, Element, Modifier methodology (commonly referred to as BEM) is a popular naming convention for classes in HTML and CSS. Developed by the team at Yandex, its goal is to help developers better understand the relationship between the HTML and CSS in a given project.
+
+
+Here's an example of what a CSS developer writing in the BEM style might write:
+
+/* Block component */
+.btn {}
+
+/* Element that depends upon the block */ 
+.btn__price {}
+
+/* Modifier that changes the style of the block */
+.btn--orange {} 
+.btn--big {}
+
+css resets:
+CSS Resets make sure that all browsers start from the same place.
+Each browser has their own set of default styles and if they are not all starting from the same
+place they are gonna look different when we apply our styles.
+
+Resets are a huge code so we are not writing our own.
+But instead rely on thrid party library. These also handle edge cases so well, so better leave the 
+job for them.
+
+We are gonna use normalise-css for this.
+
+@yarn 
+yarn add normalize.css@7.0.0
+
+this will install a normalize node_module.
+But guess what, we are simply gonna use one file out of it
+
+import './normalize.css/normalize.css';
+
+But if we directly import css file as already said, webpack will crash :|
+so we got to change webpack.config.js
+we should edit the regular expression such that it picks up css files as well.
+
+ {
+          test: /\.s?css$/, // That ? marks tells that 's' could be optional.
+                            // so now it picks up both scss and css files.
+          use: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+            
+          ]
+ }
+
+ and restart the web-server always after changing the webpack.config.js
+
+ Now the third party library normalize.css ensures that css resets are taken care of.
+
+ Now we shall define the common css styles in './styles/base/' in a file called
+ _settings.scss file.
+We are just going to give it a name like a variable-name for them, and use it everywhere we need it.
+
+This basically defines the theme of our application.
+
+That way if we define a 1.6 rem to a variable.
+if we change it _settings.scss to 3.2 rem, it changes every where and the application scales uniformly
+:)
+
+Don't forget to import it 'first'.
+
+strangely we don't use ; in jsx.
+
+To make it responsive, we have to use the device width not browser's width.
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+Media Queries:
+==============
+
+These queries let us you know page to be responsive, by getting the media devide width and height
+. We can put if conditions on that and apply css rules accordingly.
+
+for example,
+
+if there is a class .add_option
+
+now with a media query like below,
+
+@media(min-width: 45 rem)
+{
+    .add_option {
+        margin: $m-size;
+    }
+}
+
+I can specify that I wish to set the margin at medium size on all borders.
+
+Favicon link:
+<link rel="icon" href="demo_icon.gif" type="image/gif" sizes="16x16">
+to be pasted in head section of html.
+
+Welcome to React-Router:
+========================
+************************
+========================
+
+PArt 2 begins....
+
+
+Client routing vs Server-side routing:
+
+Traditionally when  a new page is requested, the request generally goes to server and the server gives the requested page.
+The browser rerenders the new page that is sent.
+
+In client side routing what happens using the HTML 5 History api (  allows us to watch url changes) we get to execute a javascript
+function which does what needs to be done.
+
+React in case of client side routing: displays the concerned component.
+ To be continued in ReactNotes-Part2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+

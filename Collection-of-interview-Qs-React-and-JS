@@ -1,0 +1,55 @@
+1. what is jquery?
+2. what is dom ?
+3. You need  3 input text elements out of some 10 text elements in a webpage, to set their value to current date time.
+    write in javascript, then in jquery.
+4. two way binding in react ?
+5. inheritance, polymorphism in react ?
+6. you have 2 same names being imported from 2 seperate javascript libraries, how are you gonna handle it.
+    Namespaces, modules ? You said some answer like IIFE and closure concept, implementation of private -public concept in javascript.
+    I am unsure if its correct or plain stupid :p
+7. What react controls did u use .. ?
+    Modal, datetimepicker and .. ?
+8. How to invoke nested Modals.
+9. Get data from each nested modal.
+10. you have data in a modal like arrays of things, How do u render them in a table format.
+11. What is minification.
+12. How do you resolve conflicts between 2 same variable names that needs to be imported from two different javascript modules.
+13. Explain the flow of redux
+14. what is jsx
+15. How does the data flow from redux store to components.
+16. How does the data sent in query parameters using BrowserRouter be accessed in code?
+17. How do you dynamically type a component name in url path and display that using browser router?
+18. Explain Provider and Connect.
+19. Pure functions ?
+20. Different type of elements present in HTML ? ( Like Inline, block etc..)
+21. How do you make ajax calls .?
+22. Where do you place your ajax calls in the component?
+23. How do you delete a object property.
+24. How do you find out the number of keys present in object.
+25. Array Destructuring and Object Destructuring.
+26. How do you merge 2 objects and produce a new object in javascript. Can you use object spread here ? Object.assign()?
+27. Explain Prototypal inheritance in javascript.
+28. What happens when you delete a property in object.
+29. How do you know if a objects property is its own and not the inherited one ?
+30. About REdux thunk please..
+31. Can we change the state directly without using setState in component? If not why ?
+32. Can we directly change redux store's state ? If not why ?
+33. What is immutability ? And it's use?
+34. Why do we call super(props) in constructor ? If not what happens ?
+35. Arrow functions ?
+36. Can we use arrow functions instead of binding each handler functions in component ?
+37. Why do we bind handler functions in constructor ? What happens if we dont bind ?
+38. Different ways to create an object. There are 4 ways probably ? object.create, literal expression, using function constructor, class construct
+39. How do you know if a property is present in object.
+40. Backtick operator in javascript
+41. syntax for dollar substituition of a variable or an objects proeprty value in string.
+42. difference betwen bind and call ?  which would you prefer if you want to execute a function on 1000 objects in context of some specific object.
+43. JSON data modelling.
+44. In what json format would you send data to a table.
+45. Design patterns in general
+46. Design patterns in javascript
+47. List of ES5 and ES6 features.
+48. Arrow methods.
+49. Redux think.
+50. Stateful vs stateless components. / Presentational components.
+
